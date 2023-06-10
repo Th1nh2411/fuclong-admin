@@ -7,15 +7,7 @@ import * as invoiceService from '../services/invoiceService';
 
 function Provider({ children }) {
     const localStorageManager = LocalStorageManager.getInstance();
-    const getCurrentInvoice = async () => {
-        const token = localStorageManager.getItem('token');
-        if (token) {
-            const results = await invoiceService.getCurrentInvoice(token);
-            if (results) {
-                dispatch(actions.setCurrentInvoice(results));
-            }
-        }
-    };
+
     const initState = {
         idShop: 2,
         userInfo: null,
@@ -26,12 +18,9 @@ function Provider({ children }) {
         cartData: null,
         currentInvoice: null,
         toast: { show: false, content: '', title: '' },
-        getCurrentInvoice,
     };
     const [state, dispatch] = useReducer(reducer, initState);
-    useEffect(() => {
-        getCurrentInvoice();
-    }, [state.userInfo]);
+
     return <UserContext.Provider value={[state, dispatch]}>{children}</UserContext.Provider>;
 }
 
