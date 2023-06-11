@@ -1,4 +1,4 @@
-import styles from './Home.module.scss';
+import styles from './MenuPage.module.scss';
 import classNames from 'classnames/bind';
 import Image from '../../components/Image';
 import images from '../../assets/images';
@@ -8,8 +8,8 @@ import * as shopService from '../../services/shopService';
 import { StoreContext, actions } from '../../store';
 const cx = classNames.bind(styles);
 
-function Home() {
-    return <div className={cx('wrapper')}>Home page</div>;
+function MenuPage() {
+    return <div className={cx('wrapper')}>MenuPage page</div>;
 }
 
-export default Home;
+export default MenuPage;

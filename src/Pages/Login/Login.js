@@ -27,7 +27,7 @@ const Login = ({ setAuth }) => {
                 localStorageManage.setItem('token', results.token);
                 localStorageManage.setItem('expireDate', expirationDate.format());
                 localStorageManage.setItem('userInfo', results.customer);
-                navigate(config.routes.home);
+                navigate(config.routes.order);
             } else {
                 setPhone('');
                 setPassword('');
