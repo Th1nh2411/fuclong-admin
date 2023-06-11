@@ -8,17 +8,26 @@ import Toast from '../../components/Toast/Toast';
 import config from '../../config';
 import { useLocation } from 'react-router';
 import SideBar from '../components/SideBar';
+import Header from '../components/Header/Header';
 const cx = classNames.bind(styles);
 function DefaultLayout({ children }) {
     const localStorageManager = LocalStorageManager.getInstance();
     const [state, dispatch] = useContext(StoreContext);
     const currentPath = useLocation().pathname;
 
+    const setStorageData = () => {
+        const userData = localStorageManager.getItem('userInfo');
+        dispatch(actions.setUserInfo(userData));
+    };
+    useEffect(() => {
+        setStorageData();
+    }, []);
     return (
         <>
             <div className={cx('wrapper')}>
+                <SideBar />
                 <div className={cx('container')}>
-                    <SideBar />
+                    <Header />
                     <div className={cx('content')}>{children}</div>
                 </div>
             </div>

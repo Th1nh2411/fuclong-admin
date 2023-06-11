@@ -3,7 +3,6 @@ import UserContext from './Context';
 import reducer from './reducer';
 import { actions } from '.';
 import LocalStorageManager from '../utils/LocalStorageManager';
-import * as invoiceService from '../services/invoiceService';
 
 function Provider({ children }) {
     const localStorageManager = LocalStorageManager.getInstance();

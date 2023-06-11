@@ -17,7 +17,7 @@ function SideBar({ className }) {
         <aside className={cx('wrapper', className)}>
             <Menu>
                 <div className={cx('logo-img-wrapper')}>
-                    <Image src={images.logo3} className={cx('logo-img')} />
+                    <Image src={images.logo} className={cx('logo-img')} />
                 </div>
                 <MenuItem
                     title="Đơn hàng"

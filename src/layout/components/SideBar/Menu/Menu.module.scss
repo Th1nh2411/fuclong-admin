@@ -6,23 +6,22 @@
 .menu-item {
     display: flex;
     align-items: center;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1.8rem;
-    color: rgb(196, 196, 196);
-    padding: 20px 12px;
+    color: rgb(187 207 195);
+    padding: 20px 20px;
     // border-radius: 4px;
     transition: background-color ease-in-out 200ms;
     position: relative;
-    font-weight: 800;
     &:hover {
-        color: var(--secondary-color);
+        color: #fff;
     }
     &:hover .icon {
-        color: var(--secondary-color);
+        color: #fff;
     }
     &.active {
-        color: var(--primary-color);
-        background-color: rgba(147, 111, 84, 0.388);
+        color: #fff;
+        background-color: rgb(84 147 109 / 39%);
         transition: all 0.3s ease-in-out;
     }
     &.active .icon {
@@ -35,7 +34,6 @@
 .menu-item.separate {
     position: absolute;
     bottom: 100px;
-    left: 10px;
     width: 100%;
     &::before {
         content: '';
