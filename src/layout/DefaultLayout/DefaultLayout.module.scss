@@ -7,16 +7,15 @@
 }
 
 .container {
-    width: var(--default-layout-width);
+    width: 100%;
     max-width: 100%;
-    padding-top: var(--default-layout-header-height);
     z-index: 1;
     overflow: hidden;
 }
 .content {
+    padding-left: var(--sidebar-width);
     flex: 1;
     z-index: 1;
-    padding: 20px 15px;
 }
 .back-top-btn {
     position: fixed;

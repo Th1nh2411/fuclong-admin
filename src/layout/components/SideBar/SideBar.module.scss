@@ -1,0 +1,17 @@
+.wrapper {
+    // padding: 20px 0 26px 8px;
+    width: var(--sidebar-width);
+    position: fixed;
+    height: 100vh;
+    margin: 5px 0;
+    border-radius: 6px;
+}
+.wrapper:hover {
+    // background-color: #211e1f;
+    transition: 0.2s all;
+}
+@media (max-width: 991.98px) {
+    // .wrapper {
+    //     display: none;
+    // }
+}

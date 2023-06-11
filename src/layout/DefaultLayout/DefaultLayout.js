@@ -1,20 +1,13 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './DefaultLayout.module.scss';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import Cart from '../../components/Cart/Cart';
-import { HiShoppingCart } from 'react-icons/hi';
-import { BiArrowToTop } from 'react-icons/bi';
 import LocalStorageManager from '../../utils/LocalStorageManager';
 import { StoreContext, actions } from '../../store';
 import Toast from '../../components/Toast/Toast';
-import * as cartService from '../../services/cartService';
 import config from '../../config';
 import { useLocation } from 'react-router';
-import * as mapService from '../../services/mapService';
-import * as shopService from '../../services/shopService';
+import SideBar from '../components/SideBar';
 const cx = classNames.bind(styles);
 function DefaultLayout({ children }) {
     const localStorageManager = LocalStorageManager.getInstance();
@@ -25,6 +18,7 @@ function DefaultLayout({ children }) {
         <>
             <div className={cx('wrapper')}>
                 <div className={cx('container')}>
+                    <SideBar />
                     <div className={cx('content')}>{children}</div>
                 </div>
             </div>
