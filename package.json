@@ -1,6 +1,5 @@
 {
     "name": "milktea_manage",
-    "homepage": "https://th1nh2411.github.io/milktea_manage",
     "version": "0.1.0",
     "private": false,
     "dependencies": {

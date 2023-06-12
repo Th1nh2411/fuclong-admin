@@ -12,6 +12,18 @@ export const getAllOrder = async (token) => {
         return error.response && error.response.data;
     }
 };
+export const getAllOrderInTransit = async (token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    try {
+        const res = await httpRequest.get('order/getAllOrderInTransit', config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
 export const completeOrder = async (idInvoice, token) => {
     const config = {
         headers: { access_token: token },
@@ -24,6 +36,7 @@ export const completeOrder = async (idInvoice, token) => {
         return error.response && error.response.data;
     }
 };
+
 export const completeInvoice = async (idInvoice, token) => {
     const config = {
         headers: { access_token: token },

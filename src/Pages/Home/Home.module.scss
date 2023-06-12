@@ -3,42 +3,70 @@
 
 .content-wrapper {
     background-color: #fff;
+    box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+    border-radius: 4px;
 }
 .content-header {
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(204, 204, 204, 0.3);
+    border-bottom: 1px solid rgba(204, 204, 204, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .content-title {
     font-weight: 600;
-    font-size: 1.8rem;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    .icon {
+        color: var(--primary-color);
+        margin-right: 8px;
+    }
+    .icon.warning {
+        color: #dea043fc;
+    }
 }
 .content-subtitle {
+    font-weight: 600;
+    color: #555;
 }
 .content-body {
-    padding: 12px 20px;
-}
-.order-title {
-    font-weight: 700;
-    color: var(--primary-color);
-    font-size: 2rem;
+    padding-bottom: 5px;
 }
 .order-list {
     max-height: 500px;
     overflow-y: auto;
-    background-color: #ccc;
     padding: 6px 20px;
     border-radius: 4px;
 }
+.order-list + .order-list {
+    border-top: 1px solid rgba(204, 204, 204, 0.4);
+}
+.order-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.order-title {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
 .order-item-wrapper {
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: 6px 0px;
+    width: fit-content;
+}
+.order-item-wrapper + .order-item-wrapper {
+    border-top: 1px solid rgba(204, 204, 204, 0.4);
 }
 .order-item-img {
     height: 40px;
     object-fit: contain;
 }
 .order-item-info {
+    margin-left: 4px;
 }
 .order-item-name {
     font-weight: 600;
@@ -47,4 +75,31 @@
 .order-item-topping {
     line-height: 1.2;
     font-size: 1.4rem;
+}
+.order-item-actions {
+    font-size: 2rem;
+    padding: 2px 15px;
+    color: var(--primary-color);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+}
+.empty-order-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0 20px;
+    .empty-order-img {
+        width: 300px;
+        object-fit: contain;
+    }
+    .empty-order-title {
+        text-align: center;
+        margin-top: 20px;
+        color: #da4453;
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
 }

@@ -18,8 +18,8 @@ export const timeGap = (date) => {
     } else if (timeDiff < 60) {
         return `${timeDiff} phút trước`;
     } else if (timeDiff / 60 < 24) {
-        return `${Math.floor(timeDiff / 60)} phút trước `;
+        return `${Math.floor(timeDiff / 60)} giờ trước `;
     } else {
-        return `${Math.floor(timeDiff / 60 / 24)} phút trước `;
+        return `${Math.floor(timeDiff / 60 / 24)} ngày trước `;
     }
 };
