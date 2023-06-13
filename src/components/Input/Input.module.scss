@@ -3,7 +3,6 @@
     flex-direction: column;
     position: relative;
     font-weight: 700;
-    min-width: 300px;
     z-index: 1;
     margin-bottom: 6px;
     border: 1px solid var(--primary-color);
@@ -96,7 +95,7 @@
     }
 
     .hasValue ~ p {
-        top: 5px;
+        top: 3px;
         left: 12px;
         font-size: 1.3rem;
         color: var(--secondary-color);
@@ -105,16 +104,17 @@
     }
     .unit {
         display: none;
-    }
-    .hasValue ~ .unit {
         position: absolute;
-        display: block;
-        bottom: 5px;
+        bottom: 3px;
         right: 10px;
-        font-size: 2rem;
+        // font-size: 1.4rem;
         color: var(--secondary-color);
         transition: 0.2s;
         color: #a8a8a8;
+        pointer-events: none;
+    }
+    .hasValue ~ .unit {
+        display: block;
     }
     input:not(:focus) ~ p {
         color: #aaa;

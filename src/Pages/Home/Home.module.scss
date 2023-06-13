@@ -32,6 +32,9 @@
 }
 .content-body {
     padding-bottom: 5px;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .order-list {
     max-height: 500px;
