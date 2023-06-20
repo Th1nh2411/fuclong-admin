@@ -6,12 +6,13 @@ import Input from '../Input';
 import Button from '../Button';
 import { Col, Form } from 'react-bootstrap';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LocalStorageManager from '../../utils/LocalStorageManager';
 import * as menuService from '../../services/menuService';
 import Tippy from '@tippyjs/react';
 import { AiFillEdit } from 'react-icons/ai';
 import { priceFormat } from '../../utils/format';
+import { StoreContext, actions } from '../../store';
 
 const cx = classNames.bind(styles);
 
@@ -23,12 +24,13 @@ function OrderItem({ data = {} }) {
     const [priceValue, setPriceValue] = useState(Recipe.price);
     const [discountValue, setDiscountValue] = useState(100 - discount);
     const [valueChange, setValueChange] = useState(false);
+    const [state, dispatch] = useContext(StoreContext);
     const localStorageManage = LocalStorageManager.getInstance();
     const userRole = localStorageManage.getItem('userInfo').role;
-    const editMenuItem = async (activeValue) => {
+    const editMenuItem = async (activeValue = active) => {
         const token = localStorageManage.getItem('token');
         if (token) {
-            const results = await menuService.editMenuItem(Recipe.idRecipe, activeValue, discount, token);
+            const results = await menuService.editMenuItem(Recipe.idRecipe, activeValue, 100 - discountValue, token);
         }
     };
     const onlyNumber = (input) => {
@@ -49,6 +51,11 @@ function OrderItem({ data = {} }) {
         setNameValue(Recipe.name);
         setPriceValue(Recipe.price);
         setDiscountValue(100 - discount);
+    };
+    const handleClickConfirm = () => {
+        editMenuItem();
+        dispatch(actions.setToast({ show: true, title: 'Sửa món', content: 'Sửa món thành cống' }));
+        setShowEditForm(false);
     };
     useEffect(() => {
         if (
@@ -112,7 +119,12 @@ function OrderItem({ data = {} }) {
                             </div>
                             <div className={cx('form-actions')}>
                                 {valueChange && <Button onClick={handleCancelEdit}>Hủy</Button>}
-                                <Button onClick={() => {}} className={cx('confirm-btn')} primary disable={!valueChange}>
+                                <Button
+                                    onClick={handleClickConfirm}
+                                    className={cx('confirm-btn')}
+                                    primary
+                                    disable={!valueChange}
+                                >
                                     Thay đổi
                                 </Button>
                             </div>
@@ -121,7 +133,7 @@ function OrderItem({ data = {} }) {
                 </Modal>
             )}
             <div className={cx('order-item', { inactive: !active })}>
-                {discount !== 100 && <div className={cx('sale-off')}>-{100 - discount}%</div>}
+                {discountValue !== 0 && <div className={cx('sale-off')}>-{discountValue}%</div>}
                 <div className={cx('order-content')}>
                     <div className={cx('order-img-wrapper')}>
                         <Image src={Recipe.image} className={cx('order-img')} />
@@ -139,10 +151,20 @@ function OrderItem({ data = {} }) {
                             type="checkbox"
                             isValid
                             onChange={(e) => handleCheckBoxActive(e)}
+                            disabled={userRole < 2}
                         />
                     </Tippy>
                     <Tippy content="Chỉnh sửa" placement="bottom" duration={0}>
-                        <div onClick={() => setShowEditForm(true)} className={cx('order-edit')}>
+                        <div
+                            onClick={() => {
+                                if (userRole < 2) {
+                                    alert('You are not authorized');
+                                } else {
+                                    setShowEditForm(true);
+                                }
+                            }}
+                            className={cx('order-edit')}
+                        >
                             <AiFillEdit />
                         </div>
                     </Tippy>

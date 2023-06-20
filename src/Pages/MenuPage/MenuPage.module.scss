@@ -38,3 +38,21 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+.empty-order-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0 20px;
+    .empty-order-img {
+        width: 300px;
+        object-fit: contain;
+    }
+    .empty-order-title {
+        text-align: center;
+        margin-top: 20px;
+        color: #da4453;
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+}

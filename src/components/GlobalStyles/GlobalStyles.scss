@@ -99,8 +99,7 @@ html *::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
 }
 button,
-input,
-[tabindex] {
+input {
     outline: none;
     border: none;
     font-family: 'Nunito', sans-serif;

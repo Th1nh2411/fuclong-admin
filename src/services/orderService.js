@@ -49,3 +49,15 @@ export const completeInvoice = async (idInvoice, token) => {
         return error.response && error.response.data;
     }
 };
+export const getAllInvoiceByDate = async (date, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    try {
+        const res = await httpRequest.get(`order/getAllInvoiceByDate/${date}`, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};

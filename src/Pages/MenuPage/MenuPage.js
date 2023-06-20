@@ -21,7 +21,7 @@ function MenuPage() {
         const token = localStorageManage.getItem('token');
         if (token) {
             const results = await menuService.getMenuByType(idType, token);
-            if (results.isSuccess) {
+            if (results && results.isSuccess) {
                 idType === 1
                     ? setMenuType1(results.menu)
                     : idType === 2
@@ -73,17 +73,41 @@ function MenuPage() {
                                 </div>
                             </div>
                             <div className={cx('content-body')}>
-                                {index === 0
-                                    ? menuType1.length !== 0 &&
-                                      menuType1.map((item, index) => <OrderItem data={item} key={index} />)
-                                    : index === 1
-                                    ? menuType2.length !== 0 &&
-                                      menuType2.map((item, index) => <OrderItem data={item} key={index} />)
-                                    : index === 2
-                                    ? menuType3.length !== 0 &&
-                                      menuType3.map((item, index) => <OrderItem data={item} key={index} />)
-                                    : menuType4.length !== 0 &&
-                                      menuType4.map((item, index) => <OrderItem data={item} key={index} />)}
+                                {index === 0 ? (
+                                    menuType1.length !== 0 ? (
+                                        menuType1.map((item, index) => <OrderItem data={item} key={index} />)
+                                    ) : (
+                                        <div className={cx('empty-order-wrapper')}>
+                                            <Image src={images.emptyCart} className={cx('empty-order-img')} />
+                                            <div className={cx('empty-order-title')}>Chưa có món nào</div>
+                                        </div>
+                                    )
+                                ) : index === 1 ? (
+                                    menuType2.length !== 0 ? (
+                                        menuType2.map((item, index) => <OrderItem data={item} key={index} />)
+                                    ) : (
+                                        <div className={cx('empty-order-wrapper')}>
+                                            <Image src={images.emptyCart} className={cx('empty-order-img')} />
+                                            <div className={cx('empty-order-title')}>Chưa có món nào</div>
+                                        </div>
+                                    )
+                                ) : index === 2 ? (
+                                    menuType3.length !== 0 ? (
+                                        menuType3.map((item, index) => <OrderItem data={item} key={index} />)
+                                    ) : (
+                                        <div className={cx('empty-order-wrapper')}>
+                                            <Image src={images.emptyCart} className={cx('empty-order-img')} />
+                                            <div className={cx('empty-order-title')}>Chưa có món nào</div>
+                                        </div>
+                                    )
+                                ) : menuType4.length !== 0 ? (
+                                    menuType4.map((item, index) => <OrderItem data={item} key={index} />)
+                                ) : (
+                                    <div className={cx('empty-order-wrapper')}>
+                                        <Image src={images.emptyCart} className={cx('empty-order-img')} />
+                                        <div className={cx('empty-order-title')}>Chưa có món nào</div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </Col>

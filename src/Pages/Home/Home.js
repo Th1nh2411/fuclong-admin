@@ -1,6 +1,7 @@
 import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
 import Image from '../../components/Image';
+import Calendar from '../../components/Calendar';
 import images from '../../assets/images';
 import { Col, Row } from 'react-bootstrap';
 import { useContext, useEffect, useState } from 'react';
@@ -11,8 +12,10 @@ import { timeGap } from '../../utils/format';
 import { BsClipboardCheckFill } from 'react-icons/bs';
 import { HiDocumentMinus } from 'react-icons/hi2';
 import { RiEBike2Fill } from 'react-icons/ri';
+import { FaFileInvoiceDollar } from 'react-icons/fa';
 
 import Tippy from '@tippyjs/react';
+import InvoiceList from './InvoiceList';
 const cx = classNames.bind(styles);
 
 function Home() {
@@ -65,7 +68,7 @@ function Home() {
     return (
         <div className={cx('wrapper')}>
             <Row>
-                <Col>
+                <Col md={6}>
                     <div className={cx('content-wrapper')}>
                         <div className={cx('content-header')}>
                             <div className={cx('content-title')}>
@@ -119,7 +122,7 @@ function Home() {
                         </div>
                     </div>
                 </Col>
-                <Col>
+                <Col md={6}>
                     <div className={cx('content-wrapper')}>
                         <div className={cx('content-header')}>
                             <div className={cx('content-title')}>
@@ -170,6 +173,9 @@ function Home() {
                             )}
                         </div>
                     </div>
+                </Col>
+                <Col>
+                    <InvoiceList />
                 </Col>
             </Row>
         </div>
