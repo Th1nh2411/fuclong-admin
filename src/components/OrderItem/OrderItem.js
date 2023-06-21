@@ -70,69 +70,69 @@ function OrderItem({ data = {} }) {
     }, [nameValue, priceValue, discountValue]);
     return (
         <>
-            {showEditForm && (
-                <Modal handleClickOutside={() => setShowEditForm(false)} className={cx('edit-form-wrapper')}>
-                    <div className={cx('form-header')}></div>
-                    <div className={cx('form-body')}>
-                        <div className={cx('form-img-wrapper')}>
-                            <Image src={Recipe.image} className={cx('form-img')} />
-                        </div>
-                        <div className={cx('form-info')}>
-                            <Input
-                                disable={userRole !== 3}
-                                onChange={(event) => {
-                                    setNameValue(event.target.value);
-                                    setValueChange(true);
-                                }}
-                                value={nameValue}
-                                title="Tên món"
-                                type="text"
-                            />
-                            <div className={cx('item-price-wrapper')}>
+            <div className={cx('order-item', { inactive: !active })}>
+                {showEditForm && (
+                    <Modal handleClickOutside={() => setShowEditForm(false)} className={cx('edit-form-wrapper')}>
+                        <div className={cx('form-header')}></div>
+                        <div className={cx('form-body')}>
+                            <div className={cx('form-img-wrapper')}>
+                                <Image src={Recipe.image} className={cx('form-img')} />
+                            </div>
+                            <div className={cx('form-info')}>
                                 <Input
                                     disable={userRole !== 3}
-                                    className={cx('price-input')}
                                     onChange={(event) => {
-                                        if (onlyNumber(event.target.value)) {
-                                            setPriceValue(event.target.value);
-                                            setValueChange(true);
-                                        }
+                                        setNameValue(event.target.value);
+                                        setValueChange(true);
                                     }}
-                                    value={priceValue}
-                                    unit=".000 vnđ"
-                                    title="Giá món"
+                                    value={nameValue}
+                                    title="Tên món"
                                     type="text"
                                 />
-                                <Input
-                                    className={cx('price-input')}
-                                    onChange={(event) => {
-                                        if (onlyNumber(event.target.value)) {
-                                            setDiscountValue(event.target.value);
-                                            setValueChange(true);
-                                        }
-                                    }}
-                                    value={discountValue.toString()}
-                                    unit="%"
-                                    title="Discount"
-                                    type="text"
-                                />
-                            </div>
-                            <div className={cx('form-actions')}>
-                                {valueChange && <Button onClick={handleCancelEdit}>Hủy</Button>}
-                                <Button
-                                    onClick={handleClickConfirm}
-                                    className={cx('confirm-btn')}
-                                    primary
-                                    disable={!valueChange}
-                                >
-                                    Thay đổi
-                                </Button>
+                                <div className={cx('item-price-wrapper')}>
+                                    <Input
+                                        disable={userRole !== 3}
+                                        className={cx('price-input')}
+                                        onChange={(event) => {
+                                            if (onlyNumber(event.target.value)) {
+                                                setPriceValue(event.target.value);
+                                                setValueChange(true);
+                                            }
+                                        }}
+                                        value={priceValue}
+                                        unit=".000 vnđ"
+                                        title="Giá món"
+                                        type="text"
+                                    />
+                                    <Input
+                                        className={cx('price-input')}
+                                        onChange={(event) => {
+                                            if (onlyNumber(event.target.value)) {
+                                                setDiscountValue(event.target.value);
+                                                setValueChange(true);
+                                            }
+                                        }}
+                                        value={discountValue.toString()}
+                                        unit="%"
+                                        title="Discount"
+                                        type="text"
+                                    />
+                                </div>
+                                <div className={cx('form-actions')}>
+                                    {valueChange && <Button onClick={handleCancelEdit}>Hủy</Button>}
+                                    <Button
+                                        onClick={handleClickConfirm}
+                                        className={cx('confirm-btn')}
+                                        primary
+                                        disable={!valueChange}
+                                    >
+                                        Thay đổi
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Modal>
-            )}
-            <div className={cx('order-item', { inactive: !active })}>
+                    </Modal>
+                )}
                 {discountValue !== 0 && <div className={cx('sale-off')}>-{discountValue}%</div>}
                 <div className={cx('order-content')}>
                     <div className={cx('order-img-wrapper')}>
@@ -140,7 +140,7 @@ function OrderItem({ data = {} }) {
                     </div>
                     <div className={cx('order-info')}>
                         <div className={cx('order-name')}>{Recipe.name}</div>
-                        <div className={cx('order-price')}>{Recipe.price}.000đ</div>
+                        <div className={cx('order-price')}>{priceFormat(Recipe.price)}đ</div>
                     </div>
                 </div>
                 <div className={cx('order-actions')}>
