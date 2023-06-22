@@ -15,13 +15,10 @@ export const getInfoShop = async (token) => {
 export const editInfoShop = async (image, isActive, token) => {
     const config = {
         headers: { access_token: token },
-        params: {
-            image,
-            isActive,
-        },
     };
+    const body = { image, isActive };
     try {
-        const res = await httpRequest.put('shop/editInfo', config);
+        const res = await httpRequest.put('shop/editInfo', body, config);
         return res;
     } catch (error) {
         console.log(error);

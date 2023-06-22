@@ -1,59 +1,160 @@
 .wrapper {
 }
 
-// Order Section
-.order-section {
-    margin: 50px 0 80px;
+.content-wrapper {
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+    border-radius: 4px;
+    margin-top: 10px;
 }
-.type-list {
+.content-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.6);
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+    justify-content: space-between;
 }
-.type-item {
-    margin: 0 30px;
+.content-title {
+    font-weight: 600;
+    font-size: 2rem;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
-    cursor: pointer;
     align-items: center;
-    &:hover .type-img-wrapper {
-        background-color: #eaeaea;
-        border-bottom: 3px solid var(--primary-color);
-        transform: translateY(-2px);
+    .icon {
+        color: var(--primary-color);
+        margin-right: 6px;
+        margin-top: -2px;
+    }
+    .icon.warning {
+        color: #dea043fc;
+    }
+    .icon.highlight {
+        color: #4452da;
     }
 }
-.type-item.active .type-img-wrapper {
-    background-color: #eaeaea;
-    border-bottom: 3px solid var(--primary-color);
-    transform: translateY(-2px);
+.content-subtitle {
+    font-weight: 600;
+    color: #555;
 }
-.type-item.active .type-name {
-    color: rgb(0, 111, 60);
-}
-.type-img-wrapper {
-    padding: 15px;
-    border-radius: 4px;
-    border-bottom: 3px solid transparent;
-    transition: 0.1s all ease-in-out;
-}
-.type-img {
-    width: 75px;
-    height: 75px;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-}
-.type-name {
-    margin-top: 4px;
-    color: rgb(89, 89, 89);
-    font-weight: 800;
+.edit-icon {
+    color: var(--primary-color);
     font-size: 2rem;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+}
+.content-body {
+    max-height: 500px;
+    min-height: 290px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.shop-wrapper {
+    padding: 20px 30px;
+    height: 100%;
+}
+.shop-img-wrapper {
+    position: relative;
+    .shop-img {
+        width: 100%;
+        object-fit: contain;
+    }
+    .update-img-btn {
+        padding: 10px;
+        font-size: 4.4rem;
+        color: white;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: #444;
+        border-radius: 10px;
+        &:hover {
+            cursor: pointer;
+            opacity: 0.9;
+        }
+    }
+
+    .update-img-btn.disable {
+        opacity: 0.6;
+        pointer-events: none;
+    }
 }
 
-.order-subtitle {
+.shop-address {
+    margin-top: 15px;
+    span {
+        font-weight: 600;
+    }
+}
+.shop-status {
+    display: flex;
+    .shop-active-check {
+        margin-right: 4px;
+    }
+    span {
+        font-weight: 600;
+        margin-right: 10px;
+    }
+}
+.staff-table {
+    padding: 10px 15px;
+    border-collapse: initial;
+    width: 100%;
+    thead {
+        th {
+            color: #666;
+            font-weight: 600;
+            padding: 5px 0;
+            font-size: 1.4rem;
+        }
+    }
+    td {
+        padding: 8px 0;
+        font-weight: 600;
+        border-top: 1px solid #00000018;
+        color: #444;
+    }
+    .staff-name {
+        font-weight: 700;
+    }
+    .staff-role {
+        font-size: 1.4rem;
+        border-radius: 8px;
+        padding: 2px 0;
+        text-align: center;
+        font-weight: 700;
+        background-color: #daffd7;
+        border: 1px solid #7bec71;
+        color: #0fb700;
+    }
+    .staff-role.blue {
+        background-color: #d7e2ff;
+        border: 1px solid #7183ec;
+        color: #0031b7;
+    }
+    .staff-role.yellow {
+        background-color: #fffcd7;
+        border: 1px solid #cdc44f;
+        color: #ab9200;
+    }
+    .staff-phone {
+        text-align: end;
+    }
+}
+// Edit Form
+.edit-form-wrapper {
+    padding: 20px;
+    width: 400px;
+}
+.edit-form-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
     text-align: center;
+}
+.custom-btn {
+    width: 100%;
+    border-radius: 6px;
+    height: 40px;
+    margin-top: 15px;
 }

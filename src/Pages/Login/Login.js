@@ -22,7 +22,7 @@ const Login = ({ setAuth }) => {
 
         const getTokenApi = async () => {
             const results = await accountService.login({ phone, password });
-            if (results.customer.role && results.customer.role !== 0) {
+            if (results.customer && results.customer.role && results.customer.role !== 0) {
                 const expirationDate = dayjs().add(results.expireTime, 'second');
                 localStorageManage.setItem('token', results.token);
                 localStorageManage.setItem('expireDate', expirationDate.format());

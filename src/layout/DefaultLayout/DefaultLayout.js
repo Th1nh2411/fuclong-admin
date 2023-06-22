@@ -21,13 +21,15 @@ function DefaultLayout({ children }) {
         dispatch(actions.setUserInfo(userData));
     };
     const handleToggleSideBar = () => {
-        if (sideBarShrink) {
-            root_theme.style.setProperty('--sidebar-width', '250px');
-        } else {
-            root_theme.style.setProperty('--sidebar-width', '70px');
-        }
         setSideBarShrink(!sideBarShrink);
     };
+    useEffect(() => {
+        if (sideBarShrink) {
+            root_theme.style.setProperty('--sidebar-width', '70px');
+        } else {
+            root_theme.style.setProperty('--sidebar-width', '250px');
+        }
+    }, [sideBarShrink]);
     useEffect(() => {
         setStorageData();
     }, []);
