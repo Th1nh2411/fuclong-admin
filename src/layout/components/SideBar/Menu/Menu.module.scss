@@ -47,12 +47,13 @@
 }
 .item-title {
     margin-left: 12px;
+    white-space: nowrap;
 }
 .active-icon,
 .icon {
     display: flex;
     align-items: center;
-    font-size: 2.2rem;
+    font-size: 2.7rem;
 }
 .icon {
     color: rgb(196, 196, 196);

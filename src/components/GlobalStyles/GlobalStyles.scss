@@ -140,35 +140,21 @@ body {
         font-weight: 700;
         color: rgb(52, 52, 52);
         max-width: 50px;
-        // box-shadow: 0px 0px 0px 10px #000;
+        box-shadow: 0px 0px 0px 1px #0000001f;
     }
     .tippy-arrow {
-        top: -8px;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
+        // top: -8px;
+        // border-left: 8px solid transparent;
+        // border-right: 8px solid transparent;
 
-        border-bottom: 8px solid rgb(241, 241, 241);
+        // border-bottom: 8px solid rgb(241, 241, 241);
     }
 }
-.add-item {
-    animation: shakeUp 0.3s forwards ease-in-out;
-}
+
 // Input type
 
 // Keyframes
-@keyframes shakeUp {
-    0% {
-        opacity: 0;
-        transform: translateY(100%);
-    }
-    50% {
-        transform: translateY(-50%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+
 @keyframes slideToast {
     from {
         opacity: 0;

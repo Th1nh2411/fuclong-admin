@@ -5,13 +5,15 @@
     left: 0;
     height: 100vh;
     background-color: var(--dark-primary-color);
+    transition: all 0.2s ease-in-out;
 }
 .logo-img-wrapper {
     width: 100%;
     text-align: center;
-    height: 50px;
     margin: 20px 0 30px;
+    height: 50px;
     .logo-img {
+        height: 50px;
         height: inherit;
         object-fit: contain;
     }

@@ -9,6 +9,15 @@
     padding: 10px 40px;
     border-bottom: 1px solid #cccccc45;
 }
+.nav-actions {
+    margin-right: 10px;
+    margin-left: -4px;
+    font-size: 2.8rem;
+    &:hover {
+        cursor: pointer;
+        color: var(--dark-primary-color);
+    }
+}
 .greeting {
     font-size: 2rem;
     font-weight: 600;

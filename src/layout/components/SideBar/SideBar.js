@@ -11,48 +11,98 @@ import { AiFillShop } from 'react-icons/ai';
 import { RiAccountCircleFill, RiCake3Fill, RiFileList3Fill } from 'react-icons/ri';
 import { GiMilkCarton } from 'react-icons/gi';
 import images from '../../../assets/images';
+import { useEffect, useRef } from 'react';
+import Tippy from '@tippyjs/react';
 const cx = classNames.bind(styles);
-function SideBar({ className }) {
+function SideBar({ className, sideBarShrink }) {
+    const logoRef = useRef();
+    useEffect(() => {
+        if (logoRef.current) {
+            if (sideBarShrink) {
+                logoRef.current.style.height = '40px';
+            } else {
+                logoRef.current.style.height = '50px';
+            }
+        }
+    }, [sideBarShrink]);
     return (
         <aside className={cx('wrapper', className)}>
             <Menu>
                 <div className={cx('logo-img-wrapper')}>
-                    <Image src={images.logo} className={cx('logo-img')} />
+                    <Image ref={logoRef} src={images.logo} className={cx('logo-img')} />
                 </div>
-                <MenuItem
-                    title="Đơn hàng"
-                    to={config.routes.order}
-                    icon={<RiFileList3Fill />}
-                    activeIcon={<RiFileList3Fill />}
-                />
-                <MenuItem
-                    title="Nguyên liệu"
-                    to={config.routes.ingredient}
-                    icon={<GiMilkCarton />}
-                    activeIcon={<GiMilkCarton />}
-                />
-                <MenuItem title="Cửa hàng" to={config.routes.shop} icon={<AiFillShop />} activeIcon={<AiFillShop />} />
-                <MenuItem title="Menu" to={config.routes.menu} icon={<RiCake3Fill />} activeIcon={<RiCake3Fill />} />
-                <MenuItem
-                    title="Thống kê"
-                    to={config.routes.report}
-                    icon={<BsFillClipboard2DataFill />}
-                    activeIcon={<BsFillClipboard2DataFill />}
-                />
-                <MenuItem
-                    title="Tài khoản"
-                    to={config.routes.account}
-                    icon={<RiAccountCircleFill />}
-                    activeIcon={<RiAccountCircleFill />}
-                />
-                <MenuItem
-                    onClick={() => localStorage.clear()}
-                    separate
-                    title="Log Out"
-                    to={config.routes.login}
-                    icon={<IoLogOut />}
-                    activeIcon={<IoLogOut />}
-                />
+                <Tippy content="Đơn hàng" placement="right" disabled={!sideBarShrink} duration={0}>
+                    <div>
+                        <MenuItem
+                            title={!sideBarShrink && 'Đơn hàng'}
+                            to={config.routes.order}
+                            icon={<RiFileList3Fill />}
+                            activeIcon={<RiFileList3Fill />}
+                        />
+                    </div>
+                </Tippy>
+                <Tippy content="Nguyên liệu" placement="right" disabled={!sideBarShrink} duration={0}>
+                    <div>
+                        <MenuItem
+                            title={!sideBarShrink && 'Nguyên liệu'}
+                            to={config.routes.ingredient}
+                            icon={<GiMilkCarton />}
+                            activeIcon={<GiMilkCarton />}
+                        />
+                    </div>
+                </Tippy>
+                <Tippy content="Cửa hàng" placement="right" disabled={!sideBarShrink} duration={0}>
+                    <div>
+                        <MenuItem
+                            title={!sideBarShrink && 'Cửa hàng'}
+                            to={config.routes.shop}
+                            icon={<AiFillShop />}
+                            activeIcon={<AiFillShop />}
+                        />
+                    </div>
+                </Tippy>
+                <Tippy content="Menu" placement="right" disabled={!sideBarShrink} duration={0}>
+                    <div>
+                        <MenuItem
+                            title={!sideBarShrink && 'Menu'}
+                            to={config.routes.menu}
+                            icon={<RiCake3Fill />}
+                            activeIcon={<RiCake3Fill />}
+                        />
+                    </div>
+                </Tippy>
+                <Tippy content="Thống kê" placement="right" disabled={!sideBarShrink} duration={0}>
+                    <div>
+                        <MenuItem
+                            title={!sideBarShrink && 'Thống kê'}
+                            to={config.routes.report}
+                            icon={<BsFillClipboard2DataFill />}
+                            activeIcon={<BsFillClipboard2DataFill />}
+                        />
+                    </div>
+                </Tippy>
+                <Tippy content="Tài khoản" placement="right" disabled={!sideBarShrink} duration={0}>
+                    <div>
+                        <MenuItem
+                            title={!sideBarShrink && 'Tài khoản'}
+                            to={config.routes.account}
+                            icon={<RiAccountCircleFill />}
+                            activeIcon={<RiAccountCircleFill />}
+                        />
+                    </div>
+                </Tippy>
+                <Tippy content="Log Out" placement="right" disabled={!sideBarShrink} duration={0}>
+                    <div>
+                        <MenuItem
+                            onClick={() => localStorage.clear()}
+                            separate
+                            title={!sideBarShrink && 'Log Out'}
+                            to={config.routes.login}
+                            icon={<IoLogOut />}
+                            activeIcon={<IoLogOut />}
+                        />
+                    </div>
+                </Tippy>
             </Menu>
         </aside>
     );
