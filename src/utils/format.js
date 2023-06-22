@@ -11,6 +11,9 @@ export function priceFormat(number) {
 }
 export function formatNumber(number) {
     // Kiểm tra nếu số nhỏ hơn 1000, không cần thay đổi
+    if (typeof number !== 'number') {
+        return NaN;
+    }
     if (number < 1000) {
         return number.toString();
     }

@@ -36,7 +36,8 @@
     color: #555;
 }
 .content-body {
-    max-height: 500px;
+    min-height: 300px;
+    max-height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 20px;
@@ -46,6 +47,7 @@
     padding: 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .report-img {
     height: 10rem;
@@ -68,16 +70,27 @@
     color: var(--primary-color);
 }
 // Product
+.product-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.product-wrapper + .product-wrapper {
+    margin-top: 15px;
+}
 .product-content {
     display: flex;
     align-items: center;
 }
-.product-content + .product-content {
-    margin-top: 15px;
-}
+
 .ranking-icon {
     margin-right: 10px;
     flex-shrink: 0;
+    height: 26px;
+    width: 26px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.8rem;
 }
 .product-img-wrapper {
     position: relative;
@@ -108,3 +121,24 @@
 .product-price {
     font-weight: 800;
 }
+.product-quantity {
+    font-weight: 600;
+    color: #555;
+    padding: 0 5px;
+}
+// Profit Chart
+.chart-title {
+    font-size: 3rem;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .warning-detail-icon {
+        display: flex;
+        align-items: center;
+        margin-left: 8px;
+    }
+}
+// Loader

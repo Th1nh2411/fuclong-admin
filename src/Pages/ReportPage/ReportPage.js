@@ -13,6 +13,7 @@ import { formatNumber, priceFormat, timeGap } from '../../utils/format';
 import Tippy from '@tippyjs/react';
 import dayjs from 'dayjs';
 import {
+    ChartIcon,
     DrinkIcon,
     FirstIcon,
     JellyIcon,
@@ -24,111 +25,208 @@ import {
 } from '../../components/Icons/Icons';
 import { BsClipboardCheckFill } from 'react-icons/bs';
 import OrderItem from '../../components/OrderItem';
+import ProfitTracker from './ProfitTracker';
 const cx = classNames.bind(styles);
 
 function ReportPage() {
     const [reports, setReports] = useState();
+    const [allProfit, setAllProfit] = useState([]);
+    const [loading, setLoading] = useState(false);
     const localStorageManager = LocalStorageManager.getInstance();
     const getReport = async () => {
         const token = localStorageManager.getItem('token');
         if (token) {
-            const results = await reportService.getReportByDate(dayjs().format('YYYY-MM-DD'), token);
+            setLoading(true);
+            const results = await reportService.getReportByDate(dayjs().format('YYYY-MM-DD'), token, 5);
             if (results) {
                 setReports(results);
+                setAllProfit([results.total]);
+            }
+            setLoading(false);
+        }
+    };
+    const getPrevReport = async (monthGap) => {
+        const token = localStorageManager.getItem('token');
+        if (token) {
+            const results = await reportService.getReportByDate(
+                dayjs().subtract(monthGap, 'month').format('YYYY-MM-DD'),
+                token,
+                0,
+            );
+            if (results) {
+                setAllProfit((prev) => [results.total, ...prev]);
             }
         }
     };
     useEffect(() => {
         getReport();
+        for (let i = 1; i < 7; i++) {
+            getPrevReport(i);
+        }
     }, []);
+    console.log(allProfit);
     return (
-        <>
-            {reports && (
-                <div className={cx('wrapper')}>
+        <div className={cx('wrapper')}>
+            {loading ? (
+                <div className={cx('loader')}>
+                    <span />
+                    <span />
+                </div>
+            ) : (
+                <>
                     <Row>
-                        <Col>
+                        <Col md={6} xl={3}>
                             <div className={cx('content-wrapper')}>
                                 <div className={cx('report-wrapper')}>
                                     <ProfitIcon height="8rem" width="8rem" />
                                     <div className={cx('report-info')}>
                                         <div className={cx('report-title')}>Doanh thu</div>
-                                        <div className={cx('report-num')}>{formatNumber(reports.total)}</div>
+                                        <div className={cx('report-num')}>{formatNumber(reports && reports.total)}</div>
                                     </div>
                                 </div>
                             </div>
                         </Col>
-                        <Col>
+                        <Col md={6} xl={3}>
                             <div className={cx('content-wrapper')}>
                                 <div className={cx('report-wrapper')}>
                                     <DrinkIcon height="8rem" width="8rem" />
                                     <div className={cx('report-info')}>
                                         <div className={cx('report-title')}>Sản phẩm bán ra</div>
-                                        <div className={cx('report-num')}>{formatNumber(reports.countProducts)}</div>
+                                        <div className={cx('report-num')}>
+                                            {formatNumber(reports && reports.countProducts)}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </Col>
-                        <Col>
+                        <Col md={6} xl={3}>
                             <div className={cx('content-wrapper')}>
                                 <div className={cx('report-wrapper')}>
                                     <JellyIcon height="8rem" width="8rem" />
                                     <div className={cx('report-info')}>
-                                        <div className={cx('report-title')}>Topping sử dụng</div>
-                                        <div className={cx('report-num')}>{formatNumber(reports.countToppings)} </div>
+                                        <div className={cx('report-title')}>Topping dùng</div>
+                                        <div className={cx('report-num')}>
+                                            {formatNumber(reports && reports.countToppings)}{' '}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </Col>
-                        <Col>
+                        <Col md={6} xl={3}>
                             <div className={cx('content-wrapper')}>
                                 <div className={cx('report-wrapper')}>
                                     <TruckDeliveryIcon height="8rem" width="8rem" />
                                     <div className={cx('report-info')}>
-                                        <div className={cx('report-title')}>Tổng số đơn hàng</div>
-                                        <div className={cx('report-num')}>{formatNumber(reports.countInvoices)} </div>
+                                        <div className={cx('report-title')}>Tổng đơn hàng</div>
+                                        <div className={cx('report-num')}>
+                                            {formatNumber(reports && reports.countInvoices)}{' '}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </Col>
-
+                    </Row>
+                    <Row>
                         <Col lg={6}>
                             <div className={cx('content-wrapper')}>
                                 <div className={cx('content-header')}>
                                     <div className={cx('content-title')}>
                                         <RankingIcon height="3rem" width="3rem" className={cx('icon')} />
-                                        Top các món bán chạy
+                                        Các món bán chạy
                                     </div>
                                     <div className={cx('content-subtitle')}></div>
                                 </div>
                                 <div className={cx('content-body')}>
-                                    {reports.topNames &&
+                                    {reports &&
+                                        reports.topNames &&
                                         reports.topNames.map((item, index) => (
-                                            <div key={index} className={cx('product-content')}>
-                                                {index === 0 ? (
-                                                    <FirstIcon className={cx('ranking-icon')} />
-                                                ) : index === 1 ? (
-                                                    <SecondIcon className={cx('ranking-icon')} />
-                                                ) : (
-                                                    <ThirdIcon className={cx('ranking-icon')} />
-                                                )}
-                                                <div className={cx('product-img-wrapper')}>
-                                                    <Image src={item.image} className={cx('product-img')} />
-                                                </div>
-                                                <div className={cx('product-info')}>
-                                                    <div className={cx('product-name')}>{item.name}</div>
-                                                    {item.price && (
-                                                        <div className={cx('product-price')}>{item.price}.000đ</div>
+                                            <div key={index} className={cx('product-wrapper')}>
+                                                <div className={cx('product-content')}>
+                                                    {index === 0 ? (
+                                                        <FirstIcon className={cx('ranking-icon')} />
+                                                    ) : index === 1 ? (
+                                                        <SecondIcon className={cx('ranking-icon')} />
+                                                    ) : index === 2 ? (
+                                                        <ThirdIcon className={cx('ranking-icon')} />
+                                                    ) : (
+                                                        <div className={cx('ranking-icon')}>{index + 1}. </div>
                                                     )}
+                                                    <div className={cx('product-img-wrapper')}>
+                                                        <Image src={item.image} className={cx('product-img')} />
+                                                    </div>
+                                                    <div className={cx('product-info')}>
+                                                        <div className={cx('product-name')}>{item.name}</div>
+                                                        {item.price && (
+                                                            <div className={cx('product-price')}>{item.price}.000đ</div>
+                                                        )}
+                                                    </div>
                                                 </div>
+                                                <div className={cx('product-quantity')}>{item.count}sp</div>
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col lg={6}>
+                            <div className={cx('content-wrapper')}>
+                                <div className={cx('content-header')}>
+                                    <div className={cx('content-title')}>
+                                        <RankingIcon height="3rem" width="3rem" className={cx('icon')} />
+                                        Các món bán chạy
+                                    </div>
+                                    <div className={cx('content-subtitle')}></div>
+                                </div>
+                                <div className={cx('content-body')}>
+                                    {reports &&
+                                        reports.topToppings &&
+                                        reports.topToppings.map((item, index) => (
+                                            <div key={index} className={cx('product-wrapper')}>
+                                                <div className={cx('product-content')}>
+                                                    {index === 0 ? (
+                                                        <FirstIcon className={cx('ranking-icon')} />
+                                                    ) : index === 1 ? (
+                                                        <SecondIcon className={cx('ranking-icon')} />
+                                                    ) : index === 2 ? (
+                                                        <ThirdIcon className={cx('ranking-icon')} />
+                                                    ) : (
+                                                        <div className={cx('ranking-icon')}>{index + 1}. </div>
+                                                    )}
+                                                    <div className={cx('product-img-wrapper')}>
+                                                        <Image src={item.image} className={cx('product-img')} />
+                                                    </div>
+                                                    <div className={cx('product-info')}>
+                                                        <div className={cx('product-name')}>{item.name}</div>
+                                                        {item.price && (
+                                                            <div className={cx('product-price')}>{item.price}.000đ</div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <div className={cx('product-quantity')}>{item.count}sp</div>
                                             </div>
                                         ))}
                                 </div>
                             </div>
                         </Col>
                     </Row>
-                </div>
+                    <Row>
+                        <Col>
+                            <div className={cx('content-wrapper')}>
+                                <div className={cx('content-header')}>
+                                    <div className={cx('content-title')}>
+                                        <ChartIcon height="3rem" width="3rem" className={cx('icon')} />
+                                        Biểu đồ lợi nhuận
+                                    </div>
+                                    <div className={cx('content-subtitle')}></div>
+                                </div>
+                                <div className={cx('content-body')}>
+                                    <ProfitTracker allProfit={allProfit} />
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </>
             )}
-        </>
+        </div>
     );
 }
 

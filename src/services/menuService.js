@@ -29,3 +29,16 @@ export const editMenuItem = async (idRecipe, isActive, discount, token) => {
         return error.response && error.response.data;
     }
 };
+export const getDetailRecipe = async (idRecipe, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+
+    try {
+        const res = await httpRequest.get(`shop/detailRecipe/${idRecipe}`, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
