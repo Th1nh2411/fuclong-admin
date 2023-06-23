@@ -25,6 +25,7 @@ function IngredientPage() {
     const [showImportForm, setShowImportForm] = useState();
     const [showExportForm, setShowExportForm] = useState();
     const localStorageManage = LocalStorageManager.getInstance();
+    const userRole = localStorageManage.getItem('userInfo').role;
     const getIngredients = async () => {
         const token = localStorageManage.getItem('token');
         if (token) {
@@ -105,6 +106,7 @@ function IngredientPage() {
                                             </div>
                                             <div className={cx('ingredient-actions')}>
                                                 <Button
+                                                    disable={userRole < 2}
                                                     onClick={() => {
                                                         setShowImportForm(true);
                                                         setSelectedIngredient(ingredient);
@@ -116,6 +118,7 @@ function IngredientPage() {
                                                     Nhập hàng
                                                 </Button>
                                                 <Button
+                                                    disable={userRole < 2}
                                                     onClick={() => {
                                                         setShowExportForm(true);
                                                         setSelectedIngredient(ingredient);

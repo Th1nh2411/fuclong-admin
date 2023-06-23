@@ -41,12 +41,7 @@ function MenuPage() {
         getMenuDataByType(3);
         getMenuDataByType(4);
     }, []);
-    const editMenuItem = async (idType) => {
-        const token = localStorageManage.getItem('token');
-        if (token) {
-            const results = await menuService.editMenuItem(idType, token);
-        }
-    };
+   
     return (
         <div className={cx('wrapper')}>
             {loading ? (

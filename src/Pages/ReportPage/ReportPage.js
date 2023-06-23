@@ -31,6 +31,7 @@ const cx = classNames.bind(styles);
 function ReportPage() {
     const [reports, setReports] = useState();
     const [allProfit, setAllProfit] = useState([]);
+    const [allImport, setAllImport] = useState([]);
     const [loading, setLoading] = useState(false);
     const localStorageManager = LocalStorageManager.getInstance();
     const getReport = async () => {
@@ -40,29 +41,37 @@ function ReportPage() {
             const results = await reportService.getReportByDate(dayjs().format('YYYY-MM-DD'), token, 5);
             if (results) {
                 setReports(results);
-                setAllProfit([results.total]);
+                setAllProfit([{ total: results.total, date: dayjs().format('MMM') }]);
+                setAllImport([{ total: results.totalAmountImport, date: dayjs().format('MMM') }]);
             }
             setLoading(false);
         }
     };
-    const getPrevReport = async (monthGap) => {
+    const getPrevReport = async () => {
         const token = localStorageManager.getItem('token');
         if (token) {
-            const results = await reportService.getReportByDate(
-                dayjs().subtract(monthGap, 'month').format('YYYY-MM-DD'),
-                token,
-                0,
-            );
-            if (results) {
-                setAllProfit((prev) => [results.total, ...prev]);
+            for (let monthGap = 1; monthGap < 7; monthGap++) {
+                const results = await reportService.getReportByDate(
+                    dayjs().subtract(monthGap, 'month').format('YYYY-MM-DD'),
+                    token,
+                    0,
+                );
+                if (results) {
+                    setAllProfit((prev) => [
+                        { total: results.total, date: dayjs().subtract(monthGap, 'month').format('MMM') },
+                        ...prev,
+                    ]);
+                    setAllImport((prev) => [
+                        { total: results.totalAmountImport, date: dayjs().subtract(monthGap, 'month').format('MMM') },
+                        ...prev,
+                    ]);
+                }
             }
         }
     };
     useEffect(() => {
         getReport();
-        for (let i = 1; i < 7; i++) {
-            getPrevReport(i);
-        }
+        getPrevReport();
     }, []);
     return (
         <div className={cx('wrapper')}>
@@ -218,7 +227,7 @@ function ReportPage() {
                                     <div className={cx('content-subtitle')}></div>
                                 </div>
                                 <div className={cx('content-body')}>
-                                    <ProfitTracker allProfit={allProfit} />
+                                    <ProfitTracker allImport={allImport} allProfit={allProfit} />
                                 </div>
                             </div>
                         </Col>

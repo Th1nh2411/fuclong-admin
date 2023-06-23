@@ -9,17 +9,9 @@ Chart.register(...registerables);
 
 const cx = classNames.bind(styles);
 // const allProfit = [500, 900, 1200, 1500.2, 1400.8, 1300, 1900.5];
-const ProfitTracker = ({ className, allProfit }) => {
+const ProfitTracker = ({ className, allProfit, allImport }) => {
     const labels = useMemo(() => {
-        const listMonths =
-            allProfit &&
-            allProfit.map((item, index) => {
-                const thisMonth = dayjs().month + 1;
-
-                return dayjs()
-                    .subtract(allProfit.length - (index + 1), 'month')
-                    .format('MMM');
-            });
+        const listMonths = allProfit && allProfit.map((item, index) => item.date);
         return listMonths;
     }, [allProfit]); //['January', 'February', 'March', 'April', 'May', 'June', 'July']
     const data = {
@@ -28,9 +20,17 @@ const ProfitTracker = ({ className, allProfit }) => {
             {
                 fill: true,
                 label: 'Doanh thu',
-                data: allProfit,
+                data: allProfit.map((item) => item.total),
                 borderColor: '#f8a647',
                 backgroundColor: '#f8a64780',
+                color: 'black',
+            },
+            {
+                fill: true,
+                label: 'Phí nhập hàng',
+                data: allImport.map((item) => item.total),
+                borderColor: '#3e72c7',
+                backgroundColor: '#3e72c780',
                 color: 'black',
             },
         ],

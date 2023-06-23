@@ -104,6 +104,7 @@ function EditItemForm({ idRecipe = 1, onCloseModal = () => {} }) {
                             type="text"
                         />
                         <Input
+                            disable={userRole < 2}
                             className={cx('price-input')}
                             onChange={(event) => {
                                 if (onlyNumber(event.target.value)) {
