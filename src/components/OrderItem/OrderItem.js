@@ -10,9 +10,10 @@ import { useContext, useEffect, useState } from 'react';
 import LocalStorageManager from '../../utils/LocalStorageManager';
 import * as menuService from '../../services/menuService';
 import Tippy from '@tippyjs/react';
-import { AiFillEdit } from 'react-icons/ai';
-import { priceFormat } from '../../utils/format';
+import { MdOutlineInfo } from 'react-icons/md';
+import { onlyNumber, priceFormat } from '../../utils/format';
 import { StoreContext, actions } from '../../store';
+import EditItemForm from './EditItemForm';
 
 const cx = classNames.bind(styles);
 
@@ -20,24 +21,15 @@ function OrderItem({ data = {} }) {
     const { Recipe, discount, isActive } = data;
     const [active, setActive] = useState(isActive);
     const [showEditForm, setShowEditForm] = useState();
-    const [nameValue, setNameValue] = useState(Recipe.name);
-    const [priceValue, setPriceValue] = useState(Recipe.price);
-    const [discountValue, setDiscountValue] = useState(100 - discount);
-    const [valueChange, setValueChange] = useState(false);
-    const [state, dispatch] = useContext(StoreContext);
     const localStorageManage = LocalStorageManager.getInstance();
     const userRole = localStorageManage.getItem('userInfo').role;
     const editMenuItem = async (activeValue = active) => {
         const token = localStorageManage.getItem('token');
         if (token) {
-            const results = await menuService.editMenuItem(Recipe.idRecipe, activeValue, 100 - discountValue, token);
+            const results = await menuService.editMenuItem(Recipe.idRecipe, activeValue, discount, token);
         }
     };
-    const onlyNumber = (input) => {
-        console.log(input);
-        var regex = /^(\d+(\.\d*)?|)$/;
-        return regex.test(input);
-    };
+
     const handleCheckBoxActive = (e) => {
         if (e.target.checked) {
             setActive(true);
@@ -47,93 +39,14 @@ function OrderItem({ data = {} }) {
             editMenuItem(false);
         }
     };
-    const handleCancelEdit = () => {
-        setNameValue(Recipe.name);
-        setPriceValue(Recipe.price);
-        setDiscountValue(100 - discount);
-    };
-    const handleClickConfirm = () => {
-        editMenuItem();
-        dispatch(actions.setToast({ show: true, title: 'Sửa món', content: 'Sửa món thành cống' }));
-        setShowEditForm(false);
-    };
-    useEffect(() => {
-        if (
-            Recipe.name !== nameValue ||
-            Recipe.price !== Number(priceValue) ||
-            100 - discount !== Number(discountValue)
-        ) {
-            setValueChange(true);
-        } else {
-            setValueChange(false);
-        }
-    }, [nameValue, priceValue, discountValue]);
+
     return (
         <>
             <div className={cx('order-item', { inactive: !active })}>
                 {showEditForm && (
-                    <Modal handleClickOutside={() => setShowEditForm(false)} className={cx('edit-form-wrapper')}>
-                        <div className={cx('form-header')}></div>
-                        <div className={cx('form-body')}>
-                            <div className={cx('form-img-wrapper')}>
-                                <Image src={Recipe.image} className={cx('form-img')} />
-                            </div>
-                            <div className={cx('form-info')}>
-                                <Input
-                                    disable={userRole !== 3}
-                                    onChange={(event) => {
-                                        setNameValue(event.target.value);
-                                        setValueChange(true);
-                                    }}
-                                    value={nameValue}
-                                    title="Tên món"
-                                    type="text"
-                                />
-                                <div className={cx('item-price-wrapper')}>
-                                    <Input
-                                        disable={userRole !== 3}
-                                        className={cx('price-input')}
-                                        onChange={(event) => {
-                                            if (onlyNumber(event.target.value)) {
-                                                setPriceValue(event.target.value);
-                                                setValueChange(true);
-                                            }
-                                        }}
-                                        value={priceValue}
-                                        unit=".000 vnđ"
-                                        title="Giá món"
-                                        type="text"
-                                    />
-                                    <Input
-                                        className={cx('price-input')}
-                                        onChange={(event) => {
-                                            if (onlyNumber(event.target.value)) {
-                                                setDiscountValue(event.target.value);
-                                                setValueChange(true);
-                                            }
-                                        }}
-                                        value={discountValue.toString()}
-                                        unit="%"
-                                        title="Discount"
-                                        type="text"
-                                    />
-                                </div>
-                                <div className={cx('form-actions')}>
-                                    {valueChange && <Button onClick={handleCancelEdit}>Hủy</Button>}
-                                    <Button
-                                        onClick={handleClickConfirm}
-                                        className={cx('confirm-btn')}
-                                        primary
-                                        disable={!valueChange}
-                                    >
-                                        Thay đổi
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-                    </Modal>
+                    <EditItemForm idRecipe={Recipe.idRecipe} onCloseModal={() => setShowEditForm(false)} />
                 )}
-                {discountValue !== 0 && <div className={cx('sale-off')}>-{discountValue}%</div>}
+                {discount !== 0 && <div className={cx('sale-off')}>-{100 - discount}%</div>}
                 <div className={cx('order-content')}>
                     <div className={cx('order-img-wrapper')}>
                         <Image src={Recipe.image} className={cx('order-img')} />
@@ -154,18 +67,14 @@ function OrderItem({ data = {} }) {
                             disabled={userRole < 2}
                         />
                     </Tippy>
-                    <Tippy content="Chỉnh sửa" placement="bottom" duration={0}>
+                    <Tippy content="Xem chi tiết" placement="bottom" duration={0}>
                         <div
                             onClick={() => {
-                                if (userRole < 2) {
-                                    alert('You are not authorized');
-                                } else {
-                                    setShowEditForm(true);
-                                }
+                                setShowEditForm(true);
                             }}
                             className={cx('order-edit')}
                         >
-                            <AiFillEdit />
+                            <MdOutlineInfo />
                         </div>
                     </Tippy>
                 </div>

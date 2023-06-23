@@ -64,7 +64,6 @@ function ReportPage() {
             getPrevReport(i);
         }
     }, []);
-    console.log(allProfit);
     return (
         <div className={cx('wrapper')}>
             {loading ? (

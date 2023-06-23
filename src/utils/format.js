@@ -9,6 +9,11 @@ export function priceFormat(number) {
             .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     );
 }
+export const onlyNumber = (input) => {
+    console.log(input);
+    var regex = /^(\d+(\.\d*)?|)$/;
+    return regex.test(input);
+};
 export function formatNumber(number) {
     // Kiểm tra nếu số nhỏ hơn 1000, không cần thay đổi
     if (typeof number !== 'number') {

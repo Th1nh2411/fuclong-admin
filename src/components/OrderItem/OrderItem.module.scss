@@ -10,7 +10,17 @@
     position: relative;
 }
 .order-item.inactive {
-    opacity: 0.4;
+    &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: -5px;
+        height: 100%;
+        width: 100%;
+        background-color: rgb(255 255 255 / 70%);
+        pointer-events: none;
+        z-index: 100;
+    }
 }
 .order-item + .order-item {
     margin-top: 10px;
@@ -49,7 +59,7 @@
 }
 .order-actions {
     display: flex;
-    align-items: center;
+    align-items: baseline;
 }
 .order-edit {
     margin-left: 10px;
@@ -107,7 +117,7 @@
     object-fit: contain;
 }
 .form-info {
-    width: 320px;
+    max-width: 400px;
 }
 .item-price-wrapper {
     display: flex;
@@ -115,6 +125,36 @@
     .price-input {
         width: 48%;
     }
+}
+.item-title {
+    // font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 10px 0 5px;
+}
+
+.item-ingredients {
+}
+.ingredient-wrapper {
+}
+.ingredient-img {
+    width: 90%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+.ingredient-quantity {
+    margin-right: 5px;
+    color: #555;
+    font-size: 1.5rem;
+}
+.ingredient-name {
+    font-weight: 600;
+}
+
+.ingredient-remain {
+    font-size: 1.3rem;
+    line-height: 1.2;
 }
 .form-actions {
     margin-top: 20px;

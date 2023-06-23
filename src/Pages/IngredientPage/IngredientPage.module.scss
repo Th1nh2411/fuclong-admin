@@ -25,6 +25,7 @@
     .icon {
         color: var(--primary-color);
         margin-right: 8px;
+        font-size: 2.4rem;
     }
     .icon.warning {
         color: #dea043fc;
@@ -40,21 +41,117 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
-.empty-order-wrapper {
-    width: 100%;
+.ingredient-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin: 30px 0 20px;
-    .empty-order-img {
-        width: 300px;
-        object-fit: contain;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 15px 25px;
+    transition: 0.2s all ease-in-out;
+    position: relative;
+}
+.ingredient-item.inactive {
+    &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: -5px;
+        height: 100%;
+        width: 100%;
+        background-color: rgb(255 255 255 / 70%);
+        pointer-events: none;
+        z-index: 100;
     }
-    .empty-order-title {
-        text-align: center;
-        margin-top: 20px;
-        color: #da4453;
+}
+.ingredient-item + .ingredient-item {
+    margin-top: 10px;
+}
+.ingredient-content {
+    display: flex;
+    align-items: center;
+}
+.ingredient-img-wrapper {
+    position: relative;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 8px;
+    background-color: #c1e4d2;
+    margin-right: 15px;
+}
+.ingredient-img {
+    width: 70px;
+    object-fit: contain;
+}
+.ingredient-info {
+}
+.ingredient-name {
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    font-size: 2rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden !important;
+    margin-bottom: 4px;
+    margin-right: 4px;
+}
+
+.ingredient-remain {
+    span {
         font-weight: 600;
-        font-size: 1.8rem;
+        margin-right: 6px;
     }
+}
+.ingredient-actions {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    .action {
+        display: flex;
+        align-items: center;
+        margin-left: 25px;
+        .ingredient-icon {
+            margin-left: 4px;
+            color: var(--primary-color);
+            font-size: 2.2rem;
+        }
+        &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+        }
+    }
+}
+// Form
+.form-wrapper {
+    padding: 20px 30px;
+}
+.form-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0px 0 10px;
+}
+.price-input {
+    margin-top: 10px;
+}
+.quantity-wrapper {
+    margin: 10px 0 0;
+    span {
+        font-weight: 600;
+    }
+    .quantity-select {
+        margin-left: 10px;
+        margin-right: 4px;
+        padding: 2px 5px;
+    }
+}
+.action-btn {
+    margin: 20px 0 0;
+    width: 100%;
 }
