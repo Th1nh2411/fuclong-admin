@@ -10,31 +10,21 @@ import * as reportService from '../../services/reportService';
 Chart.register(...registerables);
 
 const cx = classNames.bind(styles);
-// const allProfit = [500, 900, 1200, 1500.2, 1400.8, 1300, 1900.5];
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const ProfitTracker = ({ className }) => {
     const [allProfit, setAllProfit] = useState([]);
     const [allImport, setAllImport] = useState([]);
+    const [monthIndex, setMonthIndex] = useState([]);
     const localStorageManager = LocalStorageManager.getInstance();
 
     const getAllReport = async () => {
         const token = localStorageManager.getItem('token');
         if (token) {
-            for (let monthGap = 0; monthGap < 6; monthGap++) {
-                const results = await reportService.getReportByDate(
-                    dayjs().subtract(monthGap, 'month').format('YYYY-MM-DD'),
-                    token,
-                    0,
-                );
-                if (results) {
-                    setAllProfit((prev) => [
-                        { total: results.total, date: dayjs().subtract(monthGap, 'month').format('MMM') },
-                        ...prev,
-                    ]);
-                    setAllImport((prev) => [
-                        { total: results.totalAmountImport, date: dayjs().subtract(monthGap, 'month').format('MMM') },
-                        ...prev,
-                    ]);
-                }
+            const results = await reportService.get6PrevMonthReport(token);
+            if (results && results.listTotalAndTotalAmountImport) {
+                setAllProfit(results.listTotalAndTotalAmountImport.map((item) => item.total));
+                setAllImport(results.listTotalAndTotalAmountImport.map((item) => item.totalAmountImport));
+                setMonthIndex(results.listTotalAndTotalAmountImport.map((item) => item.month));
             }
         }
     };
@@ -42,16 +32,17 @@ const ProfitTracker = ({ className }) => {
         getAllReport();
     }, []);
     const labels = useMemo(() => {
-        const listMonths = allProfit && allProfit.map((item, index) => item.date);
+        const listMonths = monthIndex.map((monthIndex) => months[monthIndex]);
         return listMonths;
-    }, [allProfit]); //['January', 'February', 'March', 'April', 'May', 'June', 'July']
+    }, [monthIndex]); //['January', 'February', 'March', 'April', 'May', 'June', 'July']
+    console.log(allImport, allProfit, monthIndex);
     const data = {
         labels,
         datasets: [
             {
                 fill: true,
                 label: 'Doanh thu',
-                data: allProfit.map((item) => item.total),
+                data: allProfit,
                 borderColor: '#f8a647',
                 backgroundColor: '#f8a64780',
                 color: 'black',
@@ -59,7 +50,7 @@ const ProfitTracker = ({ className }) => {
             {
                 fill: true,
                 label: 'Phí nhập hàng',
-                data: allImport.map((item) => item.total),
+                data: allImport,
                 borderColor: '#3e72c7',
                 backgroundColor: '#3e72c780',
                 color: 'black',

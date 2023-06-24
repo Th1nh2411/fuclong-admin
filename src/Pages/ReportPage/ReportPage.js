@@ -13,7 +13,7 @@ import { formatNumber, priceFormat, timeGap } from '../../utils/format';
 import Tippy from '@tippyjs/react';
 import dayjs from 'dayjs';
 import {
-    ChartIcon,
+    LineChartIcon,
     DrinkIcon,
     FirstIcon,
     JellyIcon,
@@ -22,6 +22,7 @@ import {
     SecondIcon,
     ThirdIcon,
     TruckDeliveryIcon,
+    BarChartIcon,
 } from '../../components/Icons/Icons';
 import { BsClipboardCheckFill } from 'react-icons/bs';
 import OrderItem from '../../components/OrderItem';
@@ -93,7 +94,9 @@ function ReportPage() {
                                     <ProfitIcon height="8rem" width="8rem" />
                                     <div className={cx('report-info')}>
                                         <div className={cx('report-title')}>Doanh thu</div>
-                                        <div className={cx('report-num')}>{formatNumber(reports && reports.total)}</div>
+                                        <div className={cx('report-num')}>
+                                            {formatNumber(reports ? reports.total : 0)}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +108,7 @@ function ReportPage() {
                                     <div className={cx('report-info')}>
                                         <div className={cx('report-title')}>Sản phẩm bán ra</div>
                                         <div className={cx('report-num')}>
-                                            {formatNumber(reports && reports.countProducts)}
+                                            {formatNumber(reports ? reports.countProducts : 0)}
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +121,7 @@ function ReportPage() {
                                     <div className={cx('report-info')}>
                                         <div className={cx('report-title')}>Topping dùng</div>
                                         <div className={cx('report-num')}>
-                                            {formatNumber(reports && reports.countToppings)}{' '}
+                                            {formatNumber(reports ? reports.countToppings : 0)}{' '}
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +134,7 @@ function ReportPage() {
                                     <div className={cx('report-info')}>
                                         <div className={cx('report-title')}>Tổng đơn hàng</div>
                                         <div className={cx('report-num')}>
-                                            {formatNumber(reports && reports.countInvoices)}{' '}
+                                            {formatNumber(reports ? reports.countInvoices : 0)}{' '}
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +238,7 @@ function ReportPage() {
                             <div className={cx('content-wrapper')}>
                                 <div className={cx('content-header')}>
                                     <div className={cx('content-title')}>
-                                        <ChartIcon height="3rem" width="3rem" className={cx('icon')} />
+                                        <LineChartIcon height="3rem" width="3rem" className={cx('icon')} />
                                         Biểu đồ lợi nhuận
                                     </div>
                                     <div className={cx('content-subtitle')}></div>
@@ -249,7 +252,7 @@ function ReportPage() {
                             <div className={cx('content-wrapper')}>
                                 <div className={cx('content-header')}>
                                     <div className={cx('content-title')}>
-                                        <ChartIcon height="3rem" width="3rem" className={cx('icon')} />
+                                        <BarChartIcon height="3rem" width="3rem" className={cx('icon')} />
                                         Thống kê nhập/xuất hàng
                                     </div>
                                     <div className={cx('content-subtitle')}></div>

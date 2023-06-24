@@ -780,7 +780,7 @@ export const ThirdIcon = ({ width = '2.6rem', height = '2.6rem', className }) =>
         </g>
     </svg>
 );
-export const ChartIcon = ({ width = '2.6rem', height = '2.6rem', className }) => (
+export const LineChartIcon = ({ width = '2.6rem', height = '2.6rem', className }) => (
     <svg
         height={height}
         width={width}
@@ -879,6 +879,60 @@ export const ChartIcon = ({ width = '2.6rem', height = '2.6rem', className }) =>
                     strokeMiterlimit="4.1"
                     stroke="none"
                 ></path>
+            </g>
+        </g>
+    </svg>
+);
+export const BarChartIcon = ({ width = '2.6rem', height = '2.6rem', className }) => (
+    <svg
+        height={height}
+        width={width}
+        className={className}
+        viewBox="0 -1.5 2253 2253"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeMiterlimit="1.5"
+        fill="#000000"
+    >
+        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+            <rect id="bar_chart" x="1.997" y="0" width="2250" height="2250" fill="none"></rect>
+            <rect
+                x="397.831"
+                y="395.833"
+                width="312.5"
+                height="1458.33"
+                fill="#1c4e80"
+                stroke="#202020"
+                stroke-width="66.67px"
+            ></rect>
+            <rect
+                x="918.664"
+                y="1020.83"
+                width="312.5"
+                height="833.333"
+                fill="#ea6a47"
+                stroke="#202020"
+                stroke-width="66.67px"
+            ></rect>
+            <rect
+                x="1439.5"
+                y="604.167"
+                width="312.5"
+                height="1250"
+                fill="#eee"
+                stroke="#202020"
+                stroke-width="66.67"
+            ></rect>
+            <g>
+                <path d="M289.497,387.5l-100,-200l-100,200l200,-0Z" fill="#202020"></path>
+                <path d="M1864.5,1962.5l200,100l-200,100l0,-200Z" fill="#202020"></path>
+                <path d="M189.497,347.5l0,1715l1715,-0" fill="none" stroke="#202020" stroke-width="66.67px"></path>
             </g>
         </g>
     </svg>
