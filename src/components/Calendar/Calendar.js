@@ -9,8 +9,8 @@ import Popper from '../Popper';
 const cx = classNames.bind(styles);
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const todayObj = dayjs();
-function Calendar({ onDayChange = () => {}, children, className }) {
-    const [dayObj, setDayObj] = useState(dayjs());
+function Calendar({ onDayChange = () => {}, date = dayjs(), type = 1, className }) {
+    const [dayObj, setDayObj] = useState(dayjs(date));
     const [showFullCalendar, setShowFullCalendar] = useState(false);
     const thisYear = dayObj.year();
     const thisMonth = dayObj.month(); // (January as 0, December as 11)
@@ -36,11 +36,11 @@ function Calendar({ onDayChange = () => {}, children, className }) {
     }, [dayObj]);
     const renderCalendarHeader = () => {
         const handlePrev = () => {
-            setDayObj(dayObj.subtract(1, 'day'));
+            setDayObj(dayObj.subtract(1, type === 1 ? 'day' : type === 2 ? 'month' : 'year'));
         };
 
         const handleNext = () => {
-            setDayObj(dayObj.add(1, 'day'));
+            setDayObj(dayObj.add(1, type === 1 ? 'day' : type === 2 ? 'month' : 'year'));
         };
         return (
             <TippyHeadless

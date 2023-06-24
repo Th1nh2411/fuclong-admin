@@ -13,3 +13,16 @@ export const getReportByDate = async (date, token, quantity = 3, type = 'month')
         return error.response && error.response.data;
     }
 };
+export const getIngredientReportByDate = async (date, token, type = 'month') => {
+    const config = {
+        headers: { access_token: token },
+        params: { type },
+    };
+    try {
+        const res = await httpRequest.get(`manager/detailChangeIngredientShop/${date}`, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};

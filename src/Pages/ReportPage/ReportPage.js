@@ -26,53 +26,37 @@ import {
 import { BsClipboardCheckFill } from 'react-icons/bs';
 import OrderItem from '../../components/OrderItem';
 import ProfitTracker from './ProfitTracker';
+import IngredientTracker from './IngredientTracker';
+import Button from '../../components/Button/Button';
 const cx = classNames.bind(styles);
 
 function ReportPage() {
     const [reports, setReports] = useState();
-    const [allProfit, setAllProfit] = useState([]);
-    const [allImport, setAllImport] = useState([]);
+    const [date, setDate] = useState(dayjs().format('YYYY-MM-DD'));
+    const [type, setType] = useState(2);
+
     const [loading, setLoading] = useState(false);
     const localStorageManager = LocalStorageManager.getInstance();
     const getReport = async () => {
         const token = localStorageManager.getItem('token');
         if (token) {
             setLoading(true);
-            const results = await reportService.getReportByDate(dayjs().format('YYYY-MM-DD'), token, 5);
+            const results = await reportService.getReportByDate(
+                date,
+                token,
+                5,
+                type === 1 ? 'day' : type === 2 ? 'month' : 'year',
+            );
+            setLoading(false);
             if (results) {
                 setReports(results);
-                setAllProfit([{ total: results.total, date: dayjs().format('MMM') }]);
-                setAllImport([{ total: results.totalAmountImport, date: dayjs().format('MMM') }]);
-            }
-            setLoading(false);
-        }
-    };
-    const getPrevReport = async () => {
-        const token = localStorageManager.getItem('token');
-        if (token) {
-            for (let monthGap = 1; monthGap < 7; monthGap++) {
-                const results = await reportService.getReportByDate(
-                    dayjs().subtract(monthGap, 'month').format('YYYY-MM-DD'),
-                    token,
-                    0,
-                );
-                if (results) {
-                    setAllProfit((prev) => [
-                        { total: results.total, date: dayjs().subtract(monthGap, 'month').format('MMM') },
-                        ...prev,
-                    ]);
-                    setAllImport((prev) => [
-                        { total: results.totalAmountImport, date: dayjs().subtract(monthGap, 'month').format('MMM') },
-                        ...prev,
-                    ]);
-                }
             }
         }
     };
     useEffect(() => {
         getReport();
-        getPrevReport();
-    }, []);
+        console.log(date, type);
+    }, [date, type]);
     return (
         <div className={cx('wrapper')}>
             {loading ? (
@@ -82,6 +66,26 @@ function ReportPage() {
                 </div>
             ) : (
                 <>
+                    <div className={cx('header')}>
+                        <div className={cx('header-title')}>Thống kê theo :</div>
+                        <div className={cx('header-actions')}>
+                            <Button primary={type === 1} onClick={() => setType(1)}>
+                                Ngày
+                            </Button>
+                            <Button primary={type === 2} onClick={() => setType(2)}>
+                                Tháng
+                            </Button>
+                            <Button primary={type === 3} onClick={() => setType(3)}>
+                                Năm
+                            </Button>
+                        </div>
+                        <Calendar
+                            type={type}
+                            date={date}
+                            className={cx('header-calendar')}
+                            onDayChange={(date) => setDate(date.format('YYYY-MM-DD'))}
+                        />
+                    </div>
                     <Row>
                         <Col md={6} xl={3}>
                             <div className={cx('content-wrapper')}>
@@ -145,8 +149,7 @@ function ReportPage() {
                                     <div className={cx('content-subtitle')}></div>
                                 </div>
                                 <div className={cx('content-body')}>
-                                    {reports &&
-                                        reports.topNames &&
+                                    {reports && reports.topNames.length ? (
                                         reports.topNames.map((item, index) => (
                                             <div key={index} className={cx('product-wrapper')}>
                                                 <div className={cx('product-content')}>
@@ -171,7 +174,13 @@ function ReportPage() {
                                                 </div>
                                                 <div className={cx('product-quantity')}>{item.count}sp</div>
                                             </div>
-                                        ))}
+                                        ))
+                                    ) : (
+                                        <div className={cx('empty-order-wrapper')}>
+                                            <Image src={images.emptyCart} className={cx('empty-order-img')} />
+                                            <div className={cx('empty-order-title')}>Chưa có đơn hàng nào</div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </Col>
@@ -180,13 +189,12 @@ function ReportPage() {
                                 <div className={cx('content-header')}>
                                     <div className={cx('content-title')}>
                                         <RankingIcon height="3rem" width="3rem" className={cx('icon')} />
-                                        Các món bán chạy
+                                        Các topping sử dụng nhiều
                                     </div>
                                     <div className={cx('content-subtitle')}></div>
                                 </div>
                                 <div className={cx('content-body')}>
-                                    {reports &&
-                                        reports.topToppings &&
+                                    {reports && reports.topToppings.length ? (
                                         reports.topToppings.map((item, index) => (
                                             <div key={index} className={cx('product-wrapper')}>
                                                 <div className={cx('product-content')}>
@@ -211,7 +219,13 @@ function ReportPage() {
                                                 </div>
                                                 <div className={cx('product-quantity')}>{item.count}sp</div>
                                             </div>
-                                        ))}
+                                        ))
+                                    ) : (
+                                        <div className={cx('empty-order-wrapper')}>
+                                            <Image src={images.emptyCart} className={cx('empty-order-img')} />
+                                            <div className={cx('empty-order-title')}>Chưa có đơn hàng nào</div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </Col>
@@ -227,7 +241,21 @@ function ReportPage() {
                                     <div className={cx('content-subtitle')}></div>
                                 </div>
                                 <div className={cx('content-body')}>
-                                    <ProfitTracker allImport={allImport} allProfit={allProfit} />
+                                    <ProfitTracker />
+                                </div>
+                            </div>
+                        </Col>
+                        <Col>
+                            <div className={cx('content-wrapper')}>
+                                <div className={cx('content-header')}>
+                                    <div className={cx('content-title')}>
+                                        <ChartIcon height="3rem" width="3rem" className={cx('icon')} />
+                                        Thống kê nhập/xuất hàng
+                                    </div>
+                                    <div className={cx('content-subtitle')}></div>
+                                </div>
+                                <div className={cx('content-body')}>
+                                    <IngredientTracker date={date} type={type} />
                                 </div>
                             </div>
                         </Col>

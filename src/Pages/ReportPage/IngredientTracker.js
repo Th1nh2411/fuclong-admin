@@ -1,7 +1,7 @@
 import styles from './ReportPage.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useMemo, useState } from 'react';
-import { Line } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import dayjs from 'dayjs';
 import { Chart, registerables } from 'chart.js';
 import { formatNumber } from '../../utils/format';
@@ -10,59 +10,60 @@ import * as reportService from '../../services/reportService';
 Chart.register(...registerables);
 
 const cx = classNames.bind(styles);
-// const allProfit = [500, 900, 1200, 1500.2, 1400.8, 1300, 1900.5];
-const ProfitTracker = ({ className }) => {
-    const [allProfit, setAllProfit] = useState([]);
-    const [allImport, setAllImport] = useState([]);
+const IngredientTracker = ({ className, date, type }) => {
+    const [imports, setImports] = useState();
+    const [exportsFromBH, setExportsFromBH] = useState();
+    const [exports, setExports] = useState();
     const localStorageManager = LocalStorageManager.getInstance();
-
-    const getAllReport = async () => {
+    const getIngredientReport = async () => {
         const token = localStorageManager.getItem('token');
         if (token) {
-            for (let monthGap = 0; monthGap < 6; monthGap++) {
-                const results = await reportService.getReportByDate(
-                    dayjs().subtract(monthGap, 'month').format('YYYY-MM-DD'),
-                    token,
-                    0,
-                );
-                if (results) {
-                    setAllProfit((prev) => [
-                        { total: results.total, date: dayjs().subtract(monthGap, 'month').format('MMM') },
-                        ...prev,
-                    ]);
-                    setAllImport((prev) => [
-                        { total: results.totalAmountImport, date: dayjs().subtract(monthGap, 'month').format('MMM') },
-                        ...prev,
-                    ]);
-                }
+            const results = await reportService.getIngredientReportByDate(
+                date,
+                token,
+                type === 1 ? 'day' : type === 2 ? 'month' : 'year',
+            );
+            if (results) {
+                setImports(results.imports);
+                setExportsFromBH(results.exportsBH);
+                setExports(results.exportsWithoutBH);
             }
         }
     };
     useEffect(() => {
-        getAllReport();
-    }, []);
+        getIngredientReport();
+    }, [date, type]);
     const labels = useMemo(() => {
-        const listMonths = allProfit && allProfit.map((item, index) => item.date);
+        const listMonths = imports && imports.map((item, index) => item.name);
         return listMonths;
-    }, [allProfit]); //['January', 'February', 'March', 'April', 'May', 'June', 'July']
+    }, [imports]); //['January', 'February', 'March', 'April', 'May', 'June', 'July']
     const data = {
         labels,
         datasets: [
             {
                 fill: true,
-                label: 'Doanh thu',
-                data: allProfit.map((item) => item.total),
-                borderColor: '#f8a647',
-                backgroundColor: '#f8a64780',
+                label: 'Nhập hàng',
+                data: imports && imports.map((item) => item.quantity),
+                backgroundColor: '#3e72c780',
                 color: 'black',
+                fontSize: '16px',
+                stack: 'Stack 1',
             },
             {
                 fill: true,
-                label: 'Phí nhập hàng',
-                data: allImport.map((item) => item.total),
-                borderColor: '#3e72c7',
-                backgroundColor: '#3e72c780',
+                label: 'Bán hàng',
+                data: exportsFromBH && exportsFromBH.map((item) => item.quantity),
+                backgroundColor: '#c1e4d2',
                 color: 'black',
+                stack: 'Stack 0',
+            },
+            {
+                fill: true,
+                label: 'Xuất kho',
+                data: exports && exports.map((item) => item.quantity),
+                backgroundColor: '#d95d60',
+                color: 'black',
+                stack: 'Stack 0',
             },
         ],
     };
@@ -89,14 +90,16 @@ const ProfitTracker = ({ className }) => {
                     // autoSkipPadding: 10,
                     //  stepSize: 10
                     callback: function (value, index, ticks) {
-                        return formatNumber(value);
+                        return value + 'g';
                     },
                 },
                 grid: {
                     display: false,
                 },
+                stacked: true,
             },
             x: {
+                stacked: true,
                 ticks: { color: 'black', padding: 10, font: { size: 16 } },
                 grid: {
                     display: false,
@@ -106,9 +109,9 @@ const ProfitTracker = ({ className }) => {
     };
     return (
         <div className={cx('chart-wrapper', className)}>
-            {allProfit && <Line height={450} data={data} options={options} />}
+            {imports && <Bar height={450} data={data} options={options} />}
         </div>
     );
 };
 
-export default ProfitTracker;
+export default IngredientTracker;

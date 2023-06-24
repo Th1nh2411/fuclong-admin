@@ -29,6 +29,9 @@
         opacity: 0.5;
     }
 }
+.wrapper + .wrapper {
+    margin-left: 10px;
+}
 .rounded {
     border-radius: 99999px;
     &:hover {
