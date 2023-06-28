@@ -12,6 +12,7 @@
     padding-left: var(--sidebar-width);
     min-height: 100vh;
     background-color: #f3f3f9;
+    transition: all 0.1s ease-in-out;
 }
 .content {
     padding: 20px 20px 30px;

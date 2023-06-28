@@ -5,7 +5,7 @@ import styles from './Login.module.scss';
 import Button from '../../components/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import config from '../../config';
-import * as accountService from '../../services/accountService';
+import * as authService from '../../services/authService';
 import Input from '../../components/Input/Input';
 import Card from '../../components/Card/Card';
 import dayjs from 'dayjs';
@@ -21,8 +21,8 @@ const Login = ({ setAuth }) => {
         event.preventDefault();
 
         const getTokenApi = async () => {
-            const results = await accountService.login({ phone, password });
-            if (results.customer && results.customer.role && results.customer.role !== 0) {
+            const results = await authService.login({ phone, password });
+            if (results && results.customer && results.customer.role && results.customer.role !== 0) {
                 const expirationDate = dayjs().add(results.expireTime, 'second');
                 localStorageManage.setItem('token', results.token);
                 localStorageManage.setItem('expireDate', expirationDate.format());

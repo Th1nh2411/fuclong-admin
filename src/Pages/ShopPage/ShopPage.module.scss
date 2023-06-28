@@ -34,6 +34,15 @@
 .content-subtitle {
     font-weight: 600;
     color: #555;
+    .icon {
+        font-size: 2.7rem;
+        color: #dea043fc;
+        line-height: 1;
+        &:hover {
+            cursor: pointer;
+            opacity: 0.85;
+        }
+    }
 }
 .edit-icon {
     color: var(--primary-color);
@@ -50,7 +59,7 @@
     overflow-x: hidden;
 }
 .shop-wrapper {
-    padding: 20px 30px;
+    padding: 20px 20px;
     height: 100%;
 }
 .shop-img-wrapper {
@@ -137,24 +146,78 @@
         border: 1px solid #cdc44f;
         color: #ab9200;
     }
-    .staff-phone {
-        text-align: end;
+    .staff-actions {
+        display: flex;
+        justify-content: end;
+        .icon {
+            font-size: 2rem;
+            color: #0031b7;
+            line-height: 1;
+            &:hover {
+                cursor: pointer;
+                opacity: 0.85;
+            }
+        }
+        .icon + .icon {
+            margin-left: 8px;
+        }
+        .icon.red {
+            color: rgb(195 77 77);
+        }
     }
 }
-// Edit Form
+// Shop Form
 .edit-form-wrapper {
     padding: 20px;
-    width: 400px;
+    min-width: 400px;
 }
-.edit-form-title {
+.form-title {
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 10px;
     text-align: center;
 }
-.custom-btn {
+.shop-update-btn {
     width: 100%;
     border-radius: 6px;
     height: 40px;
     margin-top: 15px;
+}
+// Staff Form
+
+.form-header {
+}
+.form-body {
+    display: flex;
+}
+.form-img-wrapper {
+    position: relative;
+    padding: 30px;
+    width: fit-content;
+    border-radius: 8px;
+    background-color: #c1e4d2;
+    margin-right: 20px;
+}
+.form-img {
+    width: 220px;
+    object-fit: contain;
+}
+.form-info {
+    max-width: 400px;
+}
+.item-price-wrapper {
+    display: flex;
+    justify-content: space-between;
+    .price-input {
+        width: 48%;
+    }
+}
+
+.form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+    .confirm-btn {
+        margin-left: 10px;
+    }
 }

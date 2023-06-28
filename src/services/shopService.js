@@ -37,3 +37,52 @@ export const getListStaff = async (token) => {
         return error.response && error.response.data;
     }
 };
+export const addStaff = async (phone, name, password, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        phone,
+        name,
+        password,
+    };
+    try {
+        const res = await httpRequest.post('manager/addStaff', body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const editStaff = async (phone, name, password, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        phone,
+        name,
+        password,
+    };
+    try {
+        const res = await httpRequest.put('manager/editStaff', body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const deleteStaff = async (phone, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        phone,
+    };
+    try {
+        const res = await httpRequest.del('manager/deleteStaff', body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};

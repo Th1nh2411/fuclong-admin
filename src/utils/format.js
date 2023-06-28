@@ -10,7 +10,6 @@ export function priceFormat(number) {
     );
 }
 export const onlyNumber = (input) => {
-    console.log(input);
     var regex = /^(\d+(\.\d*)?|)$/;
     return regex.test(input);
 };
