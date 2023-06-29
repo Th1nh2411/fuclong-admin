@@ -13,6 +13,7 @@ function Button({
     small = false,
     large = false,
     rounded = false,
+    divBtn = false,
     to,
     href,
     children,
@@ -22,7 +23,7 @@ function Button({
     onClick,
     ...passProps
 }) {
-    let Comp = 'button';
+    let Comp = divBtn ? 'div' : 'button';
     const props = { onClick, ...passProps };
 
     // Remove listener when btn is disable

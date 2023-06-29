@@ -26,7 +26,7 @@ function StaffForm({ data, onCloseModal = () => {} }) {
     const editStaff = async (activeValue) => {
         const token = localStorageManage.getItem('token');
         if (token) {
-            const results = await shopService.editStaff(phoneValue, nameValue, passwordValue, token);
+            const results = await shopService.editStaff(data.idStaff, token, phoneValue, nameValue, passwordValue);
             if (results && results.isSuccess) {
                 dispatch(
                     actions.setToast({
@@ -65,10 +65,17 @@ function StaffForm({ data, onCloseModal = () => {} }) {
         }
     };
     const handleCancelEdit = () => {
-        setNameValue(data.name);
-        setPhoneValue(data.phone);
+        if (data) {
+            setNameValue(data.name);
+            setPhoneValue(data.phone);
+        } else {
+            setNameValue('');
+            setPhoneValue(data.phone);
+        }
+        setPasswordValue('');
     };
-    const handleClickConfirm = () => {
+    const handleClickConfirm = (e) => {
+        e.preventDefault();
         if (data) {
             editStaff();
         } else {
@@ -97,7 +104,7 @@ function StaffForm({ data, onCloseModal = () => {} }) {
             </div>
 
             <div className={cx('form-body')}>
-                <div className={cx('form-info')}>
+                <form onSubmit={handleClickConfirm} className={cx('form-info')}>
                     <Input
                         onChange={(event) => {
                             setNameValue(event.target.value);
@@ -121,29 +128,29 @@ function StaffForm({ data, onCloseModal = () => {} }) {
                             type="text"
                         />
                         <Input
+                            required={!!!data}
                             className={cx('price-input')}
                             onChange={(event) => {
                                 setPasswordValue(event.target.value);
                                 setValueChange(true);
                             }}
-                            value={passwordValue.toString()}
+                            value={passwordValue}
                             title="Mật khẩu mới"
                             type="text"
                         />
                     </div>
 
                     <div className={cx('form-actions')}>
-                        {valueChange && <Button onClick={handleCancelEdit}>Hủy</Button>}
-                        <Button
-                            onClick={handleClickConfirm}
-                            className={cx('confirm-btn')}
-                            primary
-                            disable={!valueChange}
-                        >
+                        {valueChange && (
+                            <Button divBtn onClick={handleCancelEdit}>
+                                Đặt lại
+                            </Button>
+                        )}
+                        <Button className={cx('confirm-btn')} primary disable={!valueChange}>
                             {data ? 'Cập nhật' : 'Tạo tài khoản'}
                         </Button>
                     </div>
-                </div>
+                </form>
             </div>
         </Modal>
     );

@@ -83,6 +83,7 @@ function ShopPage() {
                 );
             }
         }
+        getListStaff();
     };
     useEffect(() => {
         getShopInfo();
@@ -126,9 +127,24 @@ function ShopPage() {
                 >
                     <div className={cx('form-title')}>
                         Bạn chắc chắn xóa nhân viên {staffData.name}?
-                        <div className={cx('form-actions')}>
-                            <Button onClick={() => setShowConfirmDelStaff(false)}>Hủy</Button>
-                            <Button onClick={delStaff} className={cx('confirm-btn')} primary>
+                        <div className={cx('form-actions', 'justify-content-center')}>
+                            <Button
+                                onClick={() => {
+                                    setShowConfirmDelStaff(false);
+                                    setStaffData(null);
+                                }}
+                            >
+                                Hủy
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    delStaff();
+                                    setShowConfirmDelStaff(false);
+                                    setStaffData(null);
+                                }}
+                                className={cx('confirm-btn')}
+                                primary
+                            >
                                 Xóa nhân viên
                             </Button>
                         </div>

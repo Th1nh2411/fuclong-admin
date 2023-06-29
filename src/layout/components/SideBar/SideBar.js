@@ -6,9 +6,8 @@ import config from '../../../config';
 import Image from '../../../components/Image';
 
 import { IoLogOut } from 'react-icons/io5';
-import { BsFillClipboard2DataFill } from 'react-icons/bs';
-import { AiFillShop } from 'react-icons/ai';
-import { RiAccountCircleFill, RiCake3Fill, RiFileList3Fill } from 'react-icons/ri';
+import { BsFillClipboard2DataFill, BsFillPeopleFill } from 'react-icons/bs';
+import { RiCake3Fill, RiFileList3Fill } from 'react-icons/ri';
 import { GiMilkCarton } from 'react-icons/gi';
 import images from '../../../assets/images';
 import { useEffect, useRef } from 'react';
@@ -54,18 +53,7 @@ function SideBar({ className, sideBarShrink }) {
                         />
                     </div>
                 </Tippy>
-                {userRole > 1 && (
-                    <Tippy content="Cửa hàng" placement="right" disabled={!sideBarShrink} duration={0}>
-                        <div>
-                            <MenuItem
-                                title={!sideBarShrink && 'Cửa hàng'}
-                                to={config.routes.shop}
-                                icon={<AiFillShop />}
-                                activeIcon={<AiFillShop />}
-                            />
-                        </div>
-                    </Tippy>
-                )}
+
                 <Tippy content="Menu" placement="right" disabled={!sideBarShrink} duration={0}>
                     <div>
                         <MenuItem
@@ -76,6 +64,18 @@ function SideBar({ className, sideBarShrink }) {
                         />
                     </div>
                 </Tippy>
+                {userRole > 1 && (
+                    <Tippy content="Nhân viên" placement="right" disabled={!sideBarShrink} duration={0}>
+                        <div>
+                            <MenuItem
+                                title={!sideBarShrink && 'Nhân viên'}
+                                to={config.routes.shop}
+                                icon={<BsFillPeopleFill />}
+                                activeIcon={<BsFillPeopleFill />}
+                            />
+                        </div>
+                    </Tippy>
+                )}
                 {userRole > 1 && (
                     <Tippy content="Thống kê" placement="right" disabled={!sideBarShrink} duration={0}>
                         <div>
@@ -88,18 +88,7 @@ function SideBar({ className, sideBarShrink }) {
                         </div>
                     </Tippy>
                 )}
-                {userRole > 1 && (
-                    <Tippy content="Tài khoản" placement="right" disabled={!sideBarShrink} duration={0}>
-                        <div>
-                            <MenuItem
-                                title={!sideBarShrink && 'Tài khoản'}
-                                to={config.routes.account}
-                                icon={<RiAccountCircleFill />}
-                                activeIcon={<RiAccountCircleFill />}
-                            />
-                        </div>
-                    </Tippy>
-                )}
+
                 <Tippy content="Log Out" placement="right" disabled={!sideBarShrink} duration={0}>
                     <div>
                         <MenuItem

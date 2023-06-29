@@ -54,7 +54,7 @@ export const addStaff = async (phone, name, password, token) => {
         return error.response && error.response.data;
     }
 };
-export const editStaff = async (phone, name, password, token) => {
+export const editStaff = async (idStaff, token, phone, name, password) => {
     const config = {
         headers: { access_token: token },
     };
@@ -64,7 +64,7 @@ export const editStaff = async (phone, name, password, token) => {
         password,
     };
     try {
-        const res = await httpRequest.put('manager/editStaff', body, config);
+        const res = await httpRequest.patch(`manager/editStaff/${idStaff}`, body, config);
         return res;
     } catch (error) {
         console.log(error);
