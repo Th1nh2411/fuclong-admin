@@ -56,7 +56,6 @@ function ReportPage() {
     };
     useEffect(() => {
         getReport();
-        console.log(date, type);
     }, [date, type]);
     return (
         <div className={cx('wrapper')}>

@@ -9,6 +9,7 @@ import { IoLogOut } from 'react-icons/io5';
 import { BsFillClipboard2DataFill, BsFillPeopleFill } from 'react-icons/bs';
 import { RiCake3Fill, RiFileList3Fill } from 'react-icons/ri';
 import { GiMilkCarton } from 'react-icons/gi';
+import { AiFillShop } from 'react-icons/ai';
 import images from '../../../assets/images';
 import { useEffect, useRef } from 'react';
 import Tippy from '@tippyjs/react';
@@ -69,7 +70,7 @@ function SideBar({ className, sideBarShrink }) {
                         <div>
                             <MenuItem
                                 title={!sideBarShrink && 'Nhân viên'}
-                                to={config.routes.shop}
+                                to={config.routes.staff}
                                 icon={<BsFillPeopleFill />}
                                 activeIcon={<BsFillPeopleFill />}
                             />
@@ -81,9 +82,22 @@ function SideBar({ className, sideBarShrink }) {
                         <div>
                             <MenuItem
                                 title={!sideBarShrink && 'Thống kê'}
-                                to={config.routes.report}
+                                to={userRole === 3 ? config.routes.adminReport : config.routes.report}
                                 icon={<BsFillClipboard2DataFill />}
                                 activeIcon={<BsFillClipboard2DataFill />}
+                            />
+                        </div>
+                    </Tippy>
+                )}
+
+                {userRole === 3 && (
+                    <Tippy content="Cửa hàng" placement="right" disabled={!sideBarShrink} duration={0}>
+                        <div>
+                            <MenuItem
+                                title={!sideBarShrink && 'Cửa hàng'}
+                                to={config.routes.shop}
+                                icon={<AiFillShop />}
+                                activeIcon={<AiFillShop />}
                             />
                         </div>
                     </Tippy>

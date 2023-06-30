@@ -1,13 +1,13 @@
-import styles from './ShopPage.module.scss';
+import styles from './ManagerForm.module.scss';
 import classNames from 'classnames/bind';
-import Modal from '../../components/Modal';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Modal from '../Modal';
+import Input from '../Input';
+import Button from '../Button';
 import { Col, Form, Row } from 'react-bootstrap';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import { useContext, useEffect, useState } from 'react';
 import LocalStorageManager from '../../utils/LocalStorageManager';
-import * as shopService from '../../services/shopService';
+import * as adminService from '../../services/adminService';
 import Tippy from '@tippyjs/react';
 import { MdOutlineInfo } from 'react-icons/md';
 import { onlyNumber, priceFormat } from '../../utils/format';
@@ -15,18 +15,26 @@ import { StoreContext, actions } from '../../store';
 
 const cx = classNames.bind(styles);
 
-function StaffForm({ data, onCloseModal = () => {} }) {
+function ManagerForm({ data, onCloseModal = () => {}, listShop }) {
     const [nameValue, setNameValue] = useState(data ? data.name : '');
     const [phoneValue, setPhoneValue] = useState(data ? data.phone : '');
     const [passwordValue, setPasswordValue] = useState('');
+    const [idShop, setIdShop] = useState(data ? data.idShop : '');
     const [valueChange, setValueChange] = useState(false);
     const [state, dispatch] = useContext(StoreContext);
     const localStorageManage = LocalStorageManager.getInstance();
     const userRole = localStorageManage.getItem('userInfo').role;
-    const editStaff = async (activeValue) => {
+    const editManager = async (activeValue) => {
         const token = localStorageManage.getItem('token');
         if (token) {
-            const results = await shopService.editStaff(data.idStaff, token, phoneValue, nameValue, passwordValue);
+            const results = await adminService.editManager(
+                data.idStaff,
+                idShop,
+                token,
+                phoneValue,
+                passwordValue,
+                nameValue,
+            );
             if (results && results.isSuccess) {
                 dispatch(
                     actions.setToast({
@@ -39,10 +47,10 @@ function StaffForm({ data, onCloseModal = () => {} }) {
             }
         }
     };
-    const addNewStaff = async (activeValue) => {
+    const addNewManager = async (activeValue) => {
         const token = localStorageManage.getItem('token');
         if (token) {
-            const results = await shopService.addStaff(phoneValue, nameValue, passwordValue, token);
+            const results = await adminService.addManager(idShop, phoneValue, passwordValue, nameValue, token);
             if (results && results.isSuccess) {
                 dispatch(
                     actions.setToast({
@@ -70,22 +78,28 @@ function StaffForm({ data, onCloseModal = () => {} }) {
             setPhoneValue(data.phone);
         } else {
             setNameValue('');
-            setPhoneValue(data.phone);
+            setPhoneValue('');
         }
         setPasswordValue('');
     };
     const handleClickConfirm = (e) => {
         e.preventDefault();
         if (data) {
-            editStaff();
+            editManager();
         } else {
-            addNewStaff();
+            addNewManager();
         }
     };
 
     useEffect(() => {
         if (data) {
             if (data.name !== nameValue || data.phone !== phoneValue || passwordValue !== '') {
+                setValueChange(true);
+            } else {
+                setValueChange(false);
+            }
+        } else {
+            if (nameValue !== '' || phoneValue !== '' || passwordValue !== '') {
                 setValueChange(true);
             } else {
                 setValueChange(false);
@@ -99,28 +113,41 @@ function StaffForm({ data, onCloseModal = () => {} }) {
             }}
             className={cx('edit-form-wrapper')}
         >
-            <div className={cx('form-title')}>
-                {data ? 'Cập nhật thông tin nhân viên' : 'Đăng kí tài khoản nhân viên'}
-            </div>
+            <div className={cx('form-title')}>{data ? 'Cập nhật thông tin quản lý' : 'Đăng kí tài khoản quản lý'}</div>
 
             <div className={cx('form-body')}>
                 <form onSubmit={handleClickConfirm} className={cx('form-info')}>
-                    <Input
-                        onChange={(event) => {
-                            setNameValue(event.target.value);
-                            setValueChange(true);
-                        }}
-                        value={nameValue}
-                        title="Tên nhân viên"
-                        type="text"
-                    />
-                    <div className={cx('item-price-wrapper')}>
+                    <div className={cx('d-flex', 'justify-content-between', 'align-items-end')}>
                         <Input
-                            className={cx('price-input')}
+                            className={cx('name-input')}
+                            onChange={(event) => {
+                                setNameValue(event.target.value);
+                            }}
+                            value={nameValue}
+                            title="Tên quản lý"
+                            type="text"
+                        />
+                        <select
+                            className={cx('workplace-select')}
+                            value={idShop}
+                            onChange={(event) => {
+                                setIdShop(event.target.value);
+                            }}
+                        >
+                            <option>Cơ sở quản lý</option>
+                            {listShop.map((shop) => (
+                                <option key={shop.idShop} value={shop.idShop}>
+                                    Cơ sở {shop.idShop}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className={cx('d-flex', 'justify-content-between')}>
+                        <Input
+                            className={cx('half-width')}
                             onChange={(event) => {
                                 if (onlyNumber(event.target.value)) {
                                     setPhoneValue(event.target.value);
-                                    setValueChange(true);
                                 }
                             }}
                             value={phoneValue}
@@ -129,10 +156,9 @@ function StaffForm({ data, onCloseModal = () => {} }) {
                         />
                         <Input
                             required={!!!data}
-                            className={cx('price-input')}
+                            className={cx('half-width')}
                             onChange={(event) => {
                                 setPasswordValue(event.target.value);
-                                setValueChange(true);
                             }}
                             value={passwordValue}
                             title="Mật khẩu mới"
@@ -156,4 +182,4 @@ function StaffForm({ data, onCloseModal = () => {} }) {
     );
 }
 
-export default StaffForm;
+export default ManagerForm;

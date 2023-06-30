@@ -909,7 +909,7 @@ export const BarChartIcon = ({ width = '2.6rem', height = '2.6rem', className })
                 height="1458.33"
                 fill="#1c4e80"
                 stroke="#202020"
-                stroke-width="66.67px"
+                strokeWidth="66.67px"
             ></rect>
             <rect
                 x="918.664"
@@ -918,7 +918,7 @@ export const BarChartIcon = ({ width = '2.6rem', height = '2.6rem', className })
                 height="833.333"
                 fill="#ea6a47"
                 stroke="#202020"
-                stroke-width="66.67px"
+                strokeWidth="66.67px"
             ></rect>
             <rect
                 x="1439.5"
@@ -927,12 +927,12 @@ export const BarChartIcon = ({ width = '2.6rem', height = '2.6rem', className })
                 height="1250"
                 fill="#eee"
                 stroke="#202020"
-                stroke-width="66.67"
+                strokeWidth="66.67"
             ></rect>
             <g>
                 <path d="M289.497,387.5l-100,-200l-100,200l200,-0Z" fill="#202020"></path>
                 <path d="M1864.5,1962.5l200,100l-200,100l0,-200Z" fill="#202020"></path>
-                <path d="M189.497,347.5l0,1715l1715,-0" fill="none" stroke="#202020" stroke-width="66.67px"></path>
+                <path d="M189.497,347.5l0,1715l1715,-0" fill="none" stroke="#202020" strokeWidth="66.67px"></path>
             </g>
         </g>
     </svg>

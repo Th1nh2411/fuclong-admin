@@ -13,10 +13,11 @@ function Header({ toggleSideBar = defaultFc }) {
     const titles = {
         [config.routes.order]: 'Đơn hàng',
         [config.routes.ingredient]: 'Nguyên liệu',
+        [config.routes.staff]: 'Nhân viên',
         [config.routes.shop]: 'Cửa hàng',
         [config.routes.menu]: 'Menu',
         [config.routes.report]: 'Thống kê',
-        [config.routes.account]: 'Tài khoản',
+        [config.routes.adminReport]: 'Thống kê',
     };
     const [state, dispatch] = useContext(StoreContext);
     const navigate = useNavigate();

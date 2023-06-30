@@ -12,6 +12,7 @@ function Input({
     errorCondition,
     value,
     onChange,
+    onFocus,
     title,
     type = 'text',
     unit,
@@ -35,6 +36,7 @@ function Input({
                 type={type}
                 value={value}
                 onChange={onChange}
+                onFocus={onFocus}
                 required={required}
                 style={{ paddingRight: paddingRightInput }}
             />
