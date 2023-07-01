@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import images from '../../assets/images';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
@@ -10,12 +10,14 @@ import Input from '../../components/Input/Input';
 import Card from '../../components/Card/Card';
 import dayjs from 'dayjs';
 import LocalStorageManager from '../../utils/LocalStorageManager';
+import { StoreContext, actions } from '../../store';
 const cx = classNames.bind(styles);
 const Login = ({ setAuth }) => {
     const navigate = useNavigate();
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [state, dispatch] = useContext(StoreContext);
     const localStorageManage = LocalStorageManager.getInstance();
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,6 +29,7 @@ const Login = ({ setAuth }) => {
                 localStorageManage.setItem('token', results.token);
                 localStorageManage.setItem('expireDate', expirationDate.format());
                 localStorageManage.setItem('userInfo', results.customer);
+                dispatch(actions.setUserInfo(results.customer));
                 navigate(config.routes.order);
             } else {
                 setPhone('');

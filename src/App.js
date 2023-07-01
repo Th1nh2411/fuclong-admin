@@ -10,12 +10,13 @@ function App() {
     const titles = {
         [config.routes.login]: 'Phúc Long - Đăng nhập',
         [config.routes.order]: 'Phúc Long - Đơn hàng',
-        [config.routes.ingredient]: 'Phúc Long - Nguyên liệu',
         [config.routes.staff]: 'Phúc Long - Cửa hàng',
+        [config.routes.ingredient]: 'Phúc Long - Nguyên liệu',
+        [config.routes.adminIngredient]: 'Phúc Long - Nguyên liệu',
         [config.routes.menu]: 'Phúc Long - Menu',
+        [config.routes.adminMenu]: 'Phúc Long - Menu',
         [config.routes.report]: 'Phúc Long - Thống kê',
         [config.routes.adminReport]: 'Phúc Long - Thống kê',
-        [config.routes.account]: 'Phúc Long - Tài khoản',
     };
     const location = useLocation();
     const navigate = useNavigate();

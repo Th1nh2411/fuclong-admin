@@ -10,7 +10,7 @@ import * as reportService from '../../services/reportService';
 Chart.register(...registerables);
 
 const cx = classNames.bind(styles);
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const ProfitTracker = ({ className }) => {
     const [allProfit, setAllProfit] = useState([]);
     const [allImport, setAllImport] = useState([]);

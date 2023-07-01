@@ -169,3 +169,21 @@ export const addIngredient = async (name, image, unitName, token) => {
         return error.response && error.response.data;
     }
 };
+export const editIngredient = async (idIngredient, token, name, image, unitName, isDel) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        name,
+        image,
+        unitName,
+        isDel,
+    };
+    try {
+        const res = await httpRequest.patch(`admin/editIngredient/${idIngredient}`, body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};

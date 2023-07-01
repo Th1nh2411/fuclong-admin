@@ -48,7 +48,7 @@ function SideBar({ className, sideBarShrink }) {
                     <div>
                         <MenuItem
                             title={!sideBarShrink && 'Nguyên liệu'}
-                            to={config.routes.ingredient}
+                            to={userRole === 3 ? config.routes.adminIngredient : config.routes.ingredient}
                             icon={<GiMilkCarton />}
                             activeIcon={<GiMilkCarton />}
                         />
@@ -59,7 +59,7 @@ function SideBar({ className, sideBarShrink }) {
                     <div>
                         <MenuItem
                             title={!sideBarShrink && 'Menu'}
-                            to={config.routes.menu}
+                            to={userRole === 3 ? config.routes.adminMenu : config.routes.menu}
                             icon={<RiCake3Fill />}
                             activeIcon={<RiCake3Fill />}
                         />

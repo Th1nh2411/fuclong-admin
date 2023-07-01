@@ -7,9 +7,13 @@ import { Chart, registerables } from 'chart.js';
 import { formatNumber } from '../../utils/format';
 import LocalStorageManager from '../../utils/LocalStorageManager';
 import * as adminService from '../../services/adminService';
+import { Colors } from 'chart.js';
+
+Chart.register(Colors);
 Chart.register(...registerables);
 
 const cx = classNames.bind(styles);
+const customColor = [['#ffc107', '#fd7e14', '#0d6efd', '#20c997', '#0dcaf0', '#dc3545', '#198754']];
 const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const CompareTracker = ({ className }) => {
     const [reportAllShop, setReportAllShop] = useState([]);
@@ -26,7 +30,7 @@ const CompareTracker = ({ className }) => {
                     );
                     if (results) {
                         const shopReport = results.listTotalAndTotalAmountImport;
-                        setReportAllShop((prev) => [...prev, shopReport]);
+                        setReportAllShop((prev) => [...prev, { idShop: results.idShop, data: shopReport }]);
                     }
                 }
             }
@@ -37,7 +41,7 @@ const CompareTracker = ({ className }) => {
     }, []);
     const labels = useMemo(() => {
         const listMonths =
-            reportAllShop && reportAllShop[1] && reportAllShop[1].map((item, index) => months[item.month]);
+            reportAllShop && reportAllShop[1] && reportAllShop[1].data.map((item, index) => months[item.month]);
         return listMonths;
     }, [reportAllShop]); //['January', 'February', 'March', 'April', 'May', 'June', 'July']
     const data = useMemo(() => {
@@ -48,18 +52,22 @@ const CompareTracker = ({ className }) => {
                 reportAllShop.map((shop, index) => {
                     return {
                         // fill: true,
-                        label: `shop ${index}`,
-                        data: shop && shop.map((month) => month.total),
-                        borderColor: '#4e72c780',
-                        backgroundColor: '#4e72c780',
+                        label: `Cơ sở ${shop.idShop}`,
+                        data: shop && shop.data.map((month) => month.total),
+                        borderColor: Colors[index],
+                        backgroundColor: Colors[index],
                         color: 'black',
                         fontSize: '16px',
+                        // pointBackgroundColor: 'none',
+                        // pointBorderColor: 'none',
                     };
                 }),
         };
     }, [labels]);
     const options = {
-        // responsive: true,
+        colors: {
+            enabled: true,
+        },
         maintainAspectRatio: false,
         plugins: {
             legend: {

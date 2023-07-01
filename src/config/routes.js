@@ -1,11 +1,13 @@
 const routes = {
     order: '/',
     login: '/login',
-    ingredient: '/ingredient',
-    shop: '/shop',
     staff: '/staff',
+    ingredient: '/ingredient',
     menu: '/menu',
     report: '/report',
+    shop: '/shop',
+    adminMenu: '/adminMenu',
+    adminIngredient: '/adminIngredient',
     adminReport: '/adminReport',
 };
 export default routes;
