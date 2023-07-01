@@ -7,6 +7,7 @@ import ShopPage from '../Pages/ShopPage';
 import config from '../config';
 import ReportPage from '../Pages/ReportPage';
 import AdminReportPage from '../Pages/AdminReportPage';
+import AdminMenuPage from '../Pages/AdminMenuPage';
 import AdminIngredientPage from '../Pages/AdminIngredientPage';
 
 export const publicRoutes = [{ path: config.routes.login, component: Login, layout: null }];
@@ -18,6 +19,6 @@ export const privateRoutes = [
     { path: config.routes.report, component: ReportPage },
     { path: config.routes.shop, component: ShopPage },
     { path: config.routes.adminIngredient, component: AdminIngredientPage },
-    { path: config.routes.adminMenu, component: MenuPage },
+    { path: config.routes.adminMenu, component: AdminMenuPage },
     { path: config.routes.adminReport, component: AdminReportPage },
 ];

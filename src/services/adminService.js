@@ -187,3 +187,97 @@ export const editIngredient = async (idIngredient, token, name, image, unitName,
         return error.response && error.response.data;
     }
 };
+export const getAllRecipe = async (idType, token) => {
+    const config = {
+        headers: { access_token: token },
+        params: {
+            idType,
+        },
+    };
+
+    try {
+        const res = await httpRequest.get(`admin/getListRecipe`, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const getDetailRecipe = async (idRecipe, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+
+    try {
+        const res = await httpRequest.get(`admin/getDetailRecipe/${idRecipe}`, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const addRecipe = async (name, image, info, price, idType, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        name,
+        image,
+        info,
+        price,
+        idType,
+    };
+    try {
+        const res = await httpRequest.post(`admin/addRecipe`, body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const editRecipe = async (idRecipe, token, isDel, name, image, info, price, idType) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        name,
+        image,
+        info,
+        price,
+        idType,
+        isDel,
+    };
+    try {
+        const res = await httpRequest.patch(`admin/editRecipe/${idRecipe}`, body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const editIngredientFromRecipe = async (idRecipe, idIngredient, quantity, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        idRecipe,
+        idIngredient,
+        quantity,
+    };
+    try {
+        const res = await httpRequest.put(`admin/editRecipeIngredient`, body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const getListToppingByType = async () => {
+    try {
+        const res = await httpRequest.get(`admin/getListType`);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
