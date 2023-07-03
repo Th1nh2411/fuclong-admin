@@ -41,7 +41,7 @@ function MenuPage() {
         getMenuDataByType(3);
         getMenuDataByType(4);
     }, []);
-   
+
     return (
         <div className={cx('wrapper')}>
             {loading ? (
@@ -79,7 +79,13 @@ function MenuPage() {
                                 <div className={cx('content-body')}>
                                     {index === 0 ? (
                                         menuType1.length !== 0 ? (
-                                            menuType1.map((item, index) => <OrderItem data={item} key={index} />)
+                                            menuType1.map((item, index) => (
+                                                <OrderItem
+                                                    onUpdateRecipe={() => getMenuDataByType(1)}
+                                                    data={item}
+                                                    key={index}
+                                                />
+                                            ))
                                         ) : (
                                             <div className={cx('empty-order-wrapper')}>
                                                 <Image src={images.emptyCart} className={cx('empty-order-img')} />
@@ -88,7 +94,13 @@ function MenuPage() {
                                         )
                                     ) : index === 1 ? (
                                         menuType2.length !== 0 ? (
-                                            menuType2.map((item, index) => <OrderItem data={item} key={index} />)
+                                            menuType2.map((item, index) => (
+                                                <OrderItem
+                                                    onUpdateRecipe={() => getMenuDataByType(2)}
+                                                    data={item}
+                                                    key={index}
+                                                />
+                                            ))
                                         ) : (
                                             <div className={cx('empty-order-wrapper')}>
                                                 <Image src={images.emptyCart} className={cx('empty-order-img')} />
@@ -97,7 +109,13 @@ function MenuPage() {
                                         )
                                     ) : index === 2 ? (
                                         menuType3.length !== 0 ? (
-                                            menuType3.map((item, index) => <OrderItem data={item} key={index} />)
+                                            menuType3.map((item, index) => (
+                                                <OrderItem
+                                                    onUpdateRecipe={() => getMenuDataByType(3)}
+                                                    data={item}
+                                                    key={index}
+                                                />
+                                            ))
                                         ) : (
                                             <div className={cx('empty-order-wrapper')}>
                                                 <Image src={images.emptyCart} className={cx('empty-order-img')} />
@@ -105,7 +123,13 @@ function MenuPage() {
                                             </div>
                                         )
                                     ) : menuType4.length !== 0 ? (
-                                        menuType4.map((item, index) => <OrderItem data={item} key={index} />)
+                                        menuType4.map((item, index) => (
+                                            <OrderItem
+                                                onUpdateRecipe={() => getMenuDataByType(4)}
+                                                data={item}
+                                                key={index}
+                                            />
+                                        ))
                                     ) : (
                                         <div className={cx('empty-order-wrapper')}>
                                             <Image src={images.emptyCart} className={cx('empty-order-img')} />

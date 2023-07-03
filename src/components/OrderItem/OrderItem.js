@@ -17,7 +17,7 @@ import EditItemForm from './EditItemForm';
 
 const cx = classNames.bind(styles);
 
-function OrderItem({ data = {} }) {
+function OrderItem({ data = {}, onUpdateRecipe = () => {} }) {
     const { Recipe, discount, isActive } = data;
     const [active, setActive] = useState(isActive);
     const [showEditForm, setShowEditForm] = useState();
@@ -44,7 +44,15 @@ function OrderItem({ data = {} }) {
         <>
             <div className={cx('order-item', { inactive: !active })}>
                 {showEditForm && (
-                    <EditItemForm idRecipe={Recipe.idRecipe} onCloseModal={() => setShowEditForm(false)} />
+                    <EditItemForm
+                        idRecipe={Recipe.idRecipe}
+                        onCloseModal={(updated) => {
+                            if (updated) {
+                                onUpdateRecipe();
+                            }
+                            setShowEditForm(false);
+                        }}
+                    />
                 )}
                 {discount !== 0 && <div className={cx('sale-off')}>-{100 - discount}%</div>}
                 <div className={cx('order-content')}>

@@ -281,3 +281,35 @@ export const getListToppingByType = async () => {
         return error.response && error.response.data;
     }
 };
+export const addToppingToType = async (idRecipe, idType, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        idRecipe,
+        idType,
+    };
+    try {
+        const res = await httpRequest.post(`admin/addRecipeType`, body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};
+export const delToppingFromType = async (idRecipe, idType, token) => {
+    const config = {
+        headers: { access_token: token },
+    };
+    const body = {
+        idRecipe,
+        idType,
+    };
+    try {
+        const res = await httpRequest.del(`admin/deleteRecipeType`, body, config);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response && error.response.data;
+    }
+};

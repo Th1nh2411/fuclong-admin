@@ -65,7 +65,7 @@ function SideBar({ className, sideBarShrink }) {
                         />
                     </div>
                 </Tippy>
-                {userRole > 1 && (
+                {userRole === 2 && (
                     <Tippy content="Nhân viên" placement="right" disabled={!sideBarShrink} duration={0}>
                         <div>
                             <MenuItem

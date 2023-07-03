@@ -191,6 +191,7 @@ function RecipeForm({ idRecipe, onCloseModal = () => {} }) {
                             <option value={2}>Cà phê</option>
                             <option value={3}>Trà</option>
                             <option value={4}>Bakery</option>
+                            <option value={7}>Topping</option>
                         </select>
                     </div>
                     {!idRecipe && (

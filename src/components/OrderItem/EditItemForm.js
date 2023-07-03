@@ -25,10 +25,10 @@ function EditItemForm({ idRecipe = 1, onCloseModal = () => {} }) {
     const [state, dispatch] = useContext(StoreContext);
     const localStorageManage = LocalStorageManager.getInstance();
     const userRole = localStorageManage.getItem('userInfo').role;
-    const editMenuItem = async (activeValue) => {
+    const editMenuItem = async () => {
         const token = localStorageManage.getItem('token');
         if (token) {
-            const results = await menuService.editMenuItem(idRecipe, activeValue, 100 - discountValue, token);
+            const results = await menuService.editMenuItem(idRecipe, detailRecipe.isActive, 100 - discountValue, token);
         }
     };
     const getDetailRecipe = async () => {
@@ -46,10 +46,10 @@ function EditItemForm({ idRecipe = 1, onCloseModal = () => {} }) {
         setPriceValue(detailRecipe.price);
         setDiscountValue(100 - detailRecipe.discount);
     };
-    const handleClickConfirm = () => {
-        editMenuItem();
+    const handleClickConfirm = async () => {
+        await editMenuItem();
         dispatch(actions.setToast({ show: true, title: 'Sửa món', content: 'Sửa món thành cống' }));
-        onCloseModal();
+        onCloseModal(true);
     };
     useEffect(() => {
         getDetailRecipe();

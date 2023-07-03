@@ -17,6 +17,7 @@ export const editMenuItem = async (idRecipe, isActive, discount, token) => {
     const config = {
         headers: { access_token: token },
     };
+    console.log(discount);
     const body = {
         isActive,
         discount,
